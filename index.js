@@ -107,7 +107,7 @@ bot.on("message", async (msg) => {
   if (msg?.web_app_data?.data) {
     await bot.sendMessage(
       msg.chat.id,
-      `Buyurtma bersh uchun mahsulotlarni menu dan tanlang`,
+      `Buyurtmangiz qabul qilindi tez orada operatorarlar siz bilan bog'lanishadi`,
       {
         reply_markup: JSON.stringify({
           keyboard: [[{ text: "Отправить контакт", request_contact: true }]],
