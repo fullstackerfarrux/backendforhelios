@@ -84,7 +84,7 @@ bot.on("message", async (msg) => {
     })}</b> %0A
     <b>Total: ${data[0].total}</b> %0A `;
 
-    fetch(
+   await fetch(
       `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`,
       {
         method: "POST",
