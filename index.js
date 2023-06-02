@@ -54,7 +54,16 @@ bot.on("location", (msg) => {
     `Отлично! Для выбора товара нажмите на кнопку "Меню"`,
     {
       reply_markup: JSON.stringify({
-        keyboard: [[{ text: `Меню`, web_app: { url: webAppUrl } }]],
+        keyboard: [
+          [
+            {
+              text: `Меню`,
+              web_app: {
+                url: "https://ecf9-84-54-84-91.ngrok-free.app/catalog-forbot",
+              },
+            },
+          ],
+        ],
         resize_keyboard: true,
       }),
     }
@@ -85,7 +94,9 @@ bot.on("message", async (msg) => {
     })}</b> %0A
     <b>Total: ${data[0].total}</b> %0A `;
 
-    axios.post(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`);
+    axios.post(
+      `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
+    );
   } catch (error) {
     console.log(error);
   }
