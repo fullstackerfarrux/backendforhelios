@@ -3,6 +3,7 @@ import client from "./db/config.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import TelegramBot from "node-telegram-bot-api";
+import axios from "axios";
 
 const app = express();
 
@@ -84,12 +85,7 @@ bot.on("message", async (msg) => {
     })}</b> %0A
     <b>Total: ${data[0].total}</b> %0A `;
 
-   await fetch(
-      `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`,
-      {
-        method: "POST",
-      }
-    );
+    axios.post(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`);
   } catch (error) {
     console.log(error);
   }
