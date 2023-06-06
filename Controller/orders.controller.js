@@ -1,13 +1,13 @@
 import client from "../db/config.js";
 
 const postOrder = async (req, res) => {
-  let { products, total, by_username } = req.body;
+  let { products, total } = req.body;
 
-  console.log(products, total, by_username);
+  console.log(products, total);
 
   let create = await client.query(
-    "INSERT INTO orders(products, total, by_username) values($1, $2, $3)",
-    [products, total, by_username]
+    "INSERT INTO orders(products, total) values($1, $2)",
+    [products, total]
   );
 };
 

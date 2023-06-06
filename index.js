@@ -6,7 +6,6 @@ import TelegramBot from "node-telegram-bot-api";
 import axios from "axios";
 import usersandorders from "./Router/orders.router.js";
 
-
 const app = express();
 
 app.use(cors());
@@ -20,7 +19,6 @@ const bot = new TelegramBot(process.env.TelegramApi, { polling: true });
 const webAppUrl = "https://helios-test.vercel.app/en/catalogforbot";
 let number = [1000];
 let userInfo = {};
-
 
 bot.onText(/start/, async (msg) => {
   bot.sendMessage(msg.chat.id, `  Assalomu alaykum ${msg.chat.first_name}!`, {
@@ -127,12 +125,10 @@ bot.on("message", async (msg) => {
           UsersData.push(data);
         });
     }
-    console.log(UsersData);
-    console.log(UsersData[0].users_location);
-    console.log(UsersData[0].users_location[0]);
+    
     const token = process.env.TelegramApi;
     const chat_id = process.env.CHAT_ID;
-    const message = ` <b>Заявка с сайта!</b> %0A
+    const message = ` <b>Заявка с бота!</b> %0A
     <b>Заказ номер: ${max}</b> %0A
     <b>Имя пользователя: @${UsersData[0].username}</b> %0A
     <b>Адрес: ${UsersData[0].users_location[0]}, ${
