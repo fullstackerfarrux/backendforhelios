@@ -5,10 +5,10 @@ const postOrder = async (req, res) => {
 
   console.log(products, total, by_username);
 
-  // let create = await client.query(
-  //   "INSERT INTO orders(products, total, by_username) values($1, $2, $3)",
-  //   [products, total, by_username]
-  // );
+  let create = await client.query(
+    "INSERT INTO orders(products, total, by_username) values($1, $2, $3)",
+    [products, total, by_username]
+  );
 };
 
 export default postOrder;

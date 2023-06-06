@@ -17,7 +17,7 @@ create table orders(
     id serial unique, 
     products varchar[] not null,
     total int not null,
-    by_username varchar not null,
+    by_username varchar,
     foreign key (by_username) references users(username)
 );
 
