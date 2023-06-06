@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import TelegramBot from "node-telegram-bot-api";
 import axios from "axios";
+import usersandorders from "./Router/orders.router.js";
 
 const app = express();
 
@@ -15,7 +16,7 @@ dotenv.config();
 let port = process.env.PORT || 3030;
 
 const bot = new TelegramBot(process.env.TelegramApi, { polling: true });
-const webAppUrl = "https://ecf9-84-54-84-91.ngrok-free.app/catalog-forbot";
+const webAppUrl = "https://805d-195-158-20-242.ngrok-free.app/catalogforbot";
 let number = [1000];
 let userInfo = {};
 
@@ -31,8 +32,8 @@ bot.on("contact", (msg) => {
   userInfo.phone_number = msg.contact.phone_number;
   userInfo.username = msg.from.username;
   userInfo.language = msg.from.language_code;
+  userInfo.user_id = msg.from.id;
 
-  console.log(userInfo);
   bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
     reply_markup: JSON.stringify({
       keyboard: [[{ text: "Отправить геопозицию", request_location: true }]],
@@ -41,13 +42,24 @@ bot.on("contact", (msg) => {
   });
 });
 
-bot.on("location", (msg) => {
+bot.on("location", async (msg) => {
   let { latitude, longitude } = msg.location;
 
   userInfo.location_latitude = latitude;
   userInfo.location_longitude = longitude;
+  userInfo.user_id = msg.from.id;
 
-  console.log(userInfo);
+  fetch("http://localhost:4444/postuser", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      user_id: userInfo.user_id,
+      username: userInfo.username,
+      phone_number: userInfo.phone_number,
+      users_location: [`${latitude}`, `${longitude}`],
+      user_language: userInfo.language,
+    }),
+  });
 
   bot.sendMessage(
     msg.chat.id,
@@ -59,7 +71,7 @@ bot.on("location", (msg) => {
             {
               text: `Меню`,
               web_app: {
-                url: "https://ecf9-84-54-84-91.ngrok-free.app/catalog-forbot",
+                url: `${webAppUrl}`,
               },
             },
           ],
@@ -77,25 +89,70 @@ bot.on("message", async (msg) => {
   }
   try {
     const data = JSON.parse(msg?.web_app_data?.data);
+    let max = 0;
+    let UsersData = [];
+    let products = [];
+    let total = +data[0].total;
 
-    console.log(data);
+    for (let i = 0; i < data.length; i++) {
+      products.push(data[i]);
+    }
+
+    if (msg?.web_app_data?.data.length > 0) {
+      fetch("http://localhost:4444/postorder", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          products: products,
+          total: total,
+          by_username: msg.from.username,
+        }),
+      });
+
+      await fetch("http://localhost:4444/get", {
+        method: "GET",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          max = +data.max;
+        });
+
+      await fetch("http://localhost:4444/getuser", {
+        method: "GET",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          UsersData.push(data);
+        });
+    }
+    console.log(UsersData);
+    console.log(UsersData[0].users_location);
+    console.log(UsersData[0].users_location[0]);
     const token = process.env.TelegramApi;
     const chat_id = process.env.CHAT_ID;
     const message = ` <b>Заявка с сайта!</b> %0A
-    <b>Заказ номер: ${number[0]}</b> %0A
-    <b>User_Name: @${userInfo.username}</b> %0A
-    <b>Location: ${userInfo.location_latitude}, ${
-      userInfo.location_longitude
-    }</b> %0A
-    <b>Phone_number: ${userInfo.phone_number}</b> %0A
-    <b>Product: ${data.map((i) => {
-      let text = `${i.product_name} -> ${i.count}`;
+    <b>Заказ номер: ${max}</b> %0A
+    <b>Имя пользователя: @${UsersData[0].username}</b> %0A
+    <b>Адрес: ${UsersData[0].users_location[0]}, ${
+      UsersData[0].users_location[1]
+    } (Локация после сообщения)</b> %0A
+    <b>Номер телефона: +${UsersData[0].phone_number}</b> %0A
+    <b>Товары в корзине: ${data.map((i) => {
+      let text = `<b> %0A      - ${i.product_name} x ${i.count} (${i.regular_price})</b>`;
       return text;
     })}</b> %0A
-    <b>Total: ${data[0].total}</b> %0A `;
+    %0A 
+    <b>Информация об оплате (наличные)</b> %0A
+    <b>Подытог: ${data[0].total - 15000} сум</b> %0A
+    <b>Доставка: 15 000 сум</b> %0A
+    <b>Скидка: ${data[0].discount} сум</b> %0A
+    <b>Итого: ${data[0].total} сум</b> %0A`;
 
-    axios.post(
+    await axios.post(
       `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
+    );
+    await axios.post(
+      `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
     );
   } catch (error) {
     console.log(error);
@@ -110,13 +167,17 @@ bot.on("message", async (msg) => {
       `Buyurtmangiz qabul qilindi tez orada operatorarlar siz bilan bog'lanishadi`,
       {
         reply_markup: JSON.stringify({
-          keyboard: [[{ text: "Отправить контакт", request_contact: true }]],
+          keyboard: [
+            [{ text: "Отправить геопозицию", request_location: true }],
+          ],
           resize_keyboard: true,
         }),
       }
     );
   }
 });
+
+app.use(usersandorders);
 
 app.listen(port, () => {
   console.log(port);
