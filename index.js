@@ -21,6 +21,13 @@ let number = [1000];
 let userInfo = {};
 
 bot.onText(/start/, async (msg) => {
+  fetch("http://localhost:4444/checknumber", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      phone_number: "998903152006",
+    }),
+  });
   bot.sendMessage(msg.chat.id, `  Assalomu alaykum ${msg.chat.first_name}!`, {
     reply_markup: JSON.stringify({
       keyboard: [[{ text: "Отправить контакт", request_contact: true }]],
@@ -125,7 +132,7 @@ bot.on("message", async (msg) => {
           UsersData.push(data);
         });
     }
-    
+
     const token = process.env.TelegramApi;
     const chat_id = process.env.CHAT_ID;
     const message = ` <b>Заявка с бота!</b> %0A
