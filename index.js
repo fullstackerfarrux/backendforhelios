@@ -49,7 +49,7 @@ bot.on("location", async (msg) => {
   userInfo.location_longitude = longitude;
   userInfo.user_id = msg.from.id;
 
-  fetch("http://localhost:4444/postuser", {
+  fetch("http://16.171.71.217/postuser", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -99,7 +99,7 @@ bot.on("message", async (msg) => {
     }
 
     if (msg?.web_app_data?.data.length > 0) {
-      fetch("http://localhost:4444/postorder", {
+      fetch("http://16.171.71.217/postorder", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -109,7 +109,7 @@ bot.on("message", async (msg) => {
         }),
       });
 
-      await fetch("http://localhost:4444/get", {
+      await fetch("http://16.171.71.217/get", {
         method: "GET",
       })
         .then((res) => res.json())
@@ -117,7 +117,7 @@ bot.on("message", async (msg) => {
           max = +data.max;
         });
 
-      await fetch("http://localhost:4444/getuser", {
+      await fetch("http://16.171.71.217/getuser", {
         method: "GET",
       })
         .then((res) => res.json())
