@@ -13,7 +13,7 @@ app.use(express.json());
 
 dotenv.config();
 
-let port = process.env.PORT || 3030;
+let port = 7777;
 
 const bot = new TelegramBot(process.env.TelegramApi, { polling: true });
 const webAppUrl = "https://helios-test.vercel.app/en/catalogforbot";
@@ -28,6 +28,7 @@ bot.onText(/start/, async (msg) => {
     }),
   });
 });
+
 bot.on("contact", (msg) => {
   userInfo.phone_number = msg.contact.phone_number;
   userInfo.username = msg.from.username;
@@ -49,7 +50,7 @@ bot.on("location", async (msg) => {
   userInfo.location_longitude = longitude;
   userInfo.user_id = msg.from.id;
 
-  fetch("http://16.171.71.217/postuser", {
+  await fetch("http://localhost:7777/postuser", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -86,54 +87,54 @@ bot.on("message", async (msg) => {
   if (msg?.web_app_data?.data) {
     let resN = number[0] + 1;
     number.unshift(resN);
-  }
-  try {
-    const data = JSON.parse(msg?.web_app_data?.data);
-    let max = 0;
-    let UsersData = [];
-    let products = [];
-    let total = +data[0].total;
 
-    for (let i = 0; i < data.length; i++) {
-      products.push(data[i]);
-    }
+    try {
+      const data = JSON.parse(msg?.web_app_data?.data);
+      let max = 0;
+      let UsersData = [];
+      let products = [];
+      let total = +data[0].total;
 
-    if (msg?.web_app_data?.data.length > 0) {
-      fetch("http://16.171.71.217/postorder", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          products: products,
-          total: total,
-          by_username: msg.from.username,
-        }),
-      });
+      for (let i = 0; i < data.length; i++) {
+        products.push(data[i]);
+      }
 
-      await fetch("http://16.171.71.217/get", {
-        method: "GET",
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          max = +data.max;
+      if (msg?.web_app_data?.data.length > 0) {
+        await fetch("http://16.171.71.217/postorder", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            products: products,
+            total: total,
+            by_username: msg.from.username,
+          }),
         });
 
-      await fetch("http://16.171.71.217/getuser", {
-        method: "GET",
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          UsersData.push(data);
-        });
-    }
+        await fetch("http://16.171.71.217/get", {
+          method: "GET",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            max = +data.max;
+          });
 
-    const token = process.env.TelegramApi;
-    const chat_id = process.env.CHAT_ID;
-    const message = ` <b>Заявка с бота!</b> %0A
+        await fetch("http://16.171.71.217/getuser", {
+          method: "GET",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            UsersData.push(data);
+          });
+      }
+
+      const token = process.env.TelegramApi;
+      const chat_id = process.env.CHAT_ID;
+      const message = ` <b>Заявка с бота!</b> %0A
     <b>Заказ номер: ${max}</b> %0A
     <b>Имя пользователя: @${UsersData[0].username}</b> %0A
     <b>Адрес: ${UsersData[0].users_location[0]}, ${
-      UsersData[0].users_location[1]
-    } (Локация после сообщения)</b> %0A
+        UsersData[0].users_location[1]
+      } (Локация после сообщения)</b> %0A
     <b>Номер телефона: +${UsersData[0].phone_number}</b> %0A
     <b>Товары в корзине: ${data.map((i) => {
       let text = `<b> %0A      - ${i.product_name} x ${i.count} (${i.regular_price})</b>`;
@@ -146,14 +147,15 @@ bot.on("message", async (msg) => {
     <b>Скидка: ${data[0].discount} сум</b> %0A
     <b>Итого: ${data[0].total} сум</b> %0A`;
 
-    await axios.post(
-      `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
-    );
-    await axios.post(
-      `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
-    );
-  } catch (error) {
-    console.log(error);
+      await axios.post(
+        `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
+      );
+      await axios.post(
+        `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
 });
 
