@@ -13,7 +13,7 @@ app.use(express.json());
 
 dotenv.config();
 
-let port = 7777;
+let port = process.env.PORT;
 
 const bot = new TelegramBot(process.env.TelegramApi, { polling: true });
 const webAppUrl = "https://helios-test.vercel.app/en/catalogforbot";

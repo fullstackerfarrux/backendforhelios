@@ -14,7 +14,6 @@ client.connect();
 
 export default client;
 
-
 // import pkg from "pg";
 
 // const { Pool } = pkg;
@@ -27,8 +26,6 @@ export default client;
 //   host: "database-1.cwbuxpebpnbx.eu-north-1.rds.amazonaws.com",
 // });
 
-
 // client.connect();
 
 // export default client;
-
