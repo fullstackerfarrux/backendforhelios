@@ -51,7 +51,7 @@ bot.on("location", async (msg) => {
   userInfo.user_id = msg.from.id;
 
   let post = await axios.post(
-    "http://16.16.99.45:4444/postuser",
+    "http://13.50.241.188:4444/postuser",
     {
       // method: "POST",
 
@@ -105,7 +105,7 @@ bot.on("message", async (msg) => {
       }
 
       if (msg?.web_app_data?.data.length > 0) {
-        await fetch("http://16.16.99.45:4444/postorder", {
+        await fetch("http://13.50.241.188:4444/postorder", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -115,7 +115,7 @@ bot.on("message", async (msg) => {
           }),
         });
 
-        await fetch("http://16.16.99.45:4444/get", {
+        await fetch("http://13.50.241.188:4444/get", {
           method: "GET",
         })
           .then((res) => res.json())
@@ -123,7 +123,7 @@ bot.on("message", async (msg) => {
             max = +data.max;
           });
 
-        await fetch("http://16.16.99.45:4444/getuser", {
+        await fetch("http://13.50.241.188:4444/getuser", {
           method: "GET",
         })
           .then((res) => res.json())
