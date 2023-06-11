@@ -50,7 +50,7 @@ bot.on("location", async (msg) => {
   userInfo.location_longitude = longitude;
   userInfo.user_id = msg.from.id;
 
-  let post = await axios.post(
+  axios.post(
     "http://13.50.241.188:4444/postuser",
     {
       // method: "POST",
@@ -59,8 +59,7 @@ bot.on("location", async (msg) => {
       user_id: userInfo.user_id,
       username: userInfo.username,
       phone_number: userInfo.phone_number,
-      // users_location: [`${latitude}`, `${longitude}`],
-      // users_location: "{lat lang}",
+      users_location: [`${latitude}`, `${longitude}`],
       user_language: userInfo.language,
       // }),
     },
@@ -104,28 +103,39 @@ bot.on("message", async (msg) => {
         products.push(data[i]);
       }
 
+      console.log(products);
+
       if (msg?.web_app_data?.data.length > 0) {
-        await fetch("http://13.50.241.188:4444/postorder", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+        await axios.post(
+          "http://13.50.241.188:4444/postorder",
+          {
+            // method: "POST",
+            // body: JSON.stringify({
             products: products,
             total: total,
             by_username: msg.from.username,
-          }),
-        });
-
-        await fetch("http://13.50.241.188:4444/get", {
-          method: "GET",
-        })
+            // }),
+          },
+          { headers: { "Content-Type": "application/json" } }
+        );
+        await axios
+          .get(
+            "http://13.50.241.188:4444/get"
+            // {
+            //   method: "GET",
+            // }
+          )
           .then((res) => res.json())
           .then((data) => {
             max = +data.max;
           });
-
-        await fetch("http://13.50.241.188:4444/getuser", {
-          method: "GET",
-        })
+        await axios
+          .get(
+            "http://13.50.241.188:4444/getuser"
+            //  {
+            //   method: "GET",
+            // }
+          )
           .then((res) => res.json())
           .then((data) => {
             UsersData.push(data);
@@ -150,7 +160,10 @@ bot.on("message", async (msg) => {
     <b>Подытог: ${data[0].total - 15000} сум</b> %0A
     <b>Доставка: 15 000 сум</b> %0A
     <b>Скидка: ${data[0].discount} сум</b> %0A
-    <b>Итого: ${data[0].total} сум</b> %0A`;
+    <b>Итого: ${data[0].total} сум</b> %0A
+    `;
+
+      console.log(1);
 
       await axios.post(
         `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
