@@ -50,17 +50,22 @@ bot.on("location", async (msg) => {
   userInfo.location_longitude = longitude;
   userInfo.user_id = msg.from.id;
 
-  await fetch("http://16.16.99.45:4444/postuser", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  let post = await axios.post(
+    "http://16.16.99.45:4444/postuser",
+    {
+      // method: "POST",
+
+      // body: JSON.stringify({
       user_id: userInfo.user_id,
       username: userInfo.username,
       phone_number: userInfo.phone_number,
-      users_location: [`${latitude}`, `${longitude}`],
+      // users_location: [`${latitude}`, `${longitude}`],
+      // users_location: "{lat lang}",
       user_language: userInfo.language,
-    }),
-  });
+      // }),
+    },
+    { headers: { "Content-Type": "application/json" } }
+  );
 
   bot.sendMessage(
     msg.chat.id,

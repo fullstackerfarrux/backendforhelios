@@ -8,11 +8,11 @@ const createUser = async (req, res) => {
     [phone_number, user_name, user_surname]
   );
 
-  if (create.command == "INSERT") {
-    res.status(200).send({ msg: "Created" });
-  } else {
+  if (create.command != "INSERT") {
     res.status(400).send({ msg: "Doesn't created" });
-  }
+  } 
+
+  res.status(200).send({ msg: "Created" });
 };
 
 export default createUser;
