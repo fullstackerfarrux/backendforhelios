@@ -3,19 +3,20 @@ import client from "../db/config.js";
 const checkNumber = async (req, res) => {
   let { phone_number } = req.body;
 
-  let check = await client.query("SELECT * from allusers");
+  let check = await client.query(
+    "SELECT * from allusers where phone_number = $1",
+    [phone_number]
+  );
 
   console.log(check.rows);
 
-  let rescheck = true;
+  // for (let i = 0; i < check.rows.length; i++) {
+  //   if (check.rows[i].phone_number == phone_number) {
+  //     rescheck = false;
+  //   }
+  // }
 
-  for (let i = 0; i < check.rows.length; i++) {
-    if (check.rows[i].phone_number == phone_number) {
-      rescheck = false;
-    }
-  }
-
-  if (rescheck == false) {
+  if (check.rows[0].length) {
     let find = await client.query(
       "SELECT * FROM allusers WHERE phone_number = $1",
       [phone_number]
