@@ -19,11 +19,18 @@ create table allusers(
 
 drop table if exists orders;
 create table orders(
-    id serial unique, 
+    id serial unique,
+    created_date varchar not null, 
     products varchar[] not null,
     total int not null,
-    type_pay varchar,
-    users_location_text varchar[],
+    undiscount int not null,
+    dicount int not null,
+    type_payment varchar,
+    username varchar not null,
+    users_location_text varchar,
+    user_location_cordinate varchar[],
+    shipping_method varchar,
+    payment_method varchar,
     comment varchar, 
     phone_number varchar
 );
