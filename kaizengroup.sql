@@ -5,12 +5,12 @@ create database botkaizengroup;
 drop table if exists allusers;
 create table allusers(
    count serial unique,
-   user_id int unique,
+   user_id int ,
    tg_username varchar,
    tg_name varchar,
    user_name varchar,
    user_surname varchar,
-   phone_number varchar unique not null,
+   phone_number varchar not null,
    users_location varchar[],
    users_location_text varchar[],
    user_language varchar,

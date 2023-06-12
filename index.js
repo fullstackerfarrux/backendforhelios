@@ -50,21 +50,37 @@ bot.on("location", async (msg) => {
   userInfo.location_longitude = longitude;
   userInfo.user_id = msg.from.id;
 
-  axios.post(
-    "http://13.50.241.188:4444/postuser",
-    {
-      // method: "POST",
+  let check = true;
 
-      // body: JSON.stringify({
-      user_id: userInfo.user_id,
-      username: userInfo.username,
-      phone_number: userInfo.phone_number,
-      users_location: [`${latitude}`, `${longitude}`],
-      user_language: userInfo.language,
-      // }),
-    },
-    { headers: { "Content-Type": "application/json" } }
-  );
+  let find = await client.query("SELECT * FROM allusers where user_id = $1", [
+    userInfo.user_id,
+  ]);
+
+  if (find.rows.length > 0) {
+    for (let i = 0; i < find.rows.length; i++) {
+      if (find.rows[i].user_name == userInfo.username) {
+        check = false;
+      }
+    }
+  }
+
+  if (!find.rows.length) {
+    let create = await client.query(
+      "INSERT INTO allusers(user_id, tg_username, phone_number, users_location, user_language) values($1, $2, $3, $4, $5)",
+      [
+        userInfo.user_id,
+        userInfo.username,
+        userInfo.phone_number,
+        [`${latitude}`, `${longitude}`],
+        userInfo.language,
+      ]
+    );
+  } else {
+    let update = await client.query(
+      "UPDATE allusers SET users_location = $1 where user_id = $2",
+      [[`${latitude}`, `${longitude}`], userInfo.user_id]
+    );
+  }
 
   bot.sendMessage(
     msg.chat.id,
@@ -94,7 +110,6 @@ bot.on("message", async (msg) => {
 
     try {
       const data = JSON.parse(msg?.web_app_data?.data);
-      let max = 0;
       let UsersData = [];
       let products = [];
       let total = +data[0].total;
@@ -103,74 +118,50 @@ bot.on("message", async (msg) => {
         products.push(data[i]);
       }
 
-      console.log(products);
-
-      if (msg?.web_app_data?.data.length > 0) {
-        await axios.post(
-          "http://13.50.241.188:4444/postorder",
-          {
-            // method: "POST",
-            // body: JSON.stringify({
-            products: products,
-            total: total,
-            by_username: msg.from.username,
-            // }),
-          },
-          { headers: { "Content-Type": "application/json" } }
+      if (msg?.web_app_data?.data.length >= 0) {
+        let create = await client.query(
+          "INSERT INTO orders(products, total) values($1, $2)",
+          [products, total]
         );
-        await axios
-          .get(
-            "http://13.50.241.188:4444/get"
-            // {
-            //   method: "GET",
-            // }
-          )
-          .then((res) => res.json())
-          .then((data) => {
-            max = +data.max;
-          });
-        await axios
-          .get(
-            "http://13.50.241.188:4444/getuser"
-            //  {
-            //   method: "GET",
-            // }
-          )
-          .then((res) => res.json())
-          .then((data) => {
-            UsersData.push(data);
-          });
-      }
 
-      const token = process.env.TelegramApi;
-      const chat_id = process.env.CHAT_ID;
-      const message = ` <b>Заявка с бота!</b> %0A
-    <b>Заказ номер: ${max}</b> %0A
-    <b>Имя пользователя: @${UsersData[0].username}</b> %0A
-    <b>Адрес: ${UsersData[0].users_location[0]}, ${
-        UsersData[0].users_location[1]
-      } (Локация после сообщения)</b> %0A
-    <b>Номер телефона: +${UsersData[0].phone_number}</b> %0A
-    <b>Товары в корзине: ${data.map((i) => {
-      let text = `<b> %0A      - ${i.product_name} x ${i.count} (${i.regular_price})</b>`;
-      return text;
-    })}</b> %0A
-    %0A 
-    <b>Информация об оплате (наличные)</b> %0A
-    <b>Подытог: ${data[0].total - 15000} сум</b> %0A
-    <b>Доставка: 15 000 сум</b> %0A
-    <b>Скидка: ${data[0].discount} сум</b> %0A
-    <b>Итого: ${data[0].total} сум</b> %0A
+        console.log("post order ned");
+        let count = [];
+        let max = await client.query("SELECT MAX(id) FROM orders");
+        count.push(max.rows[0].max);
+
+        let get = await client.query(
+          "SELECT * FROM allusers where user_id = $1",
+          [userInfo.user_id]
+        );
+
+        const token = process.env.TelegramApi;
+        const chat_id = process.env.CHAT_ID;
+        const message = ` <b>Заявка с бота!</b> %0A
+      <b>Заказ номер: ${count}</b> %0A
+       <b>Имя пользователя: @${get.rows[0].user_name}</b> %0A
+       <b>Адрес: ${get.rows[0].users_location[0]}, ${
+          get.rows[0].users_location[1]
+        } (Локация после сообщения)</b> %0A
+      <b>Номер телефона: +${get.rows[0].phone_number}</b> %0A
+      <b>Товары в корзине: ${data.map((i) => {
+        let text = `<b> %0A      - ${i.product_name} x ${i.count} (${i.regular_price})</b>`;
+        return text;
+      })}</b> %0A
+      %0A
+      <b>Информация об оплате (наличные)</b> %0A
+      <b>Подытог: ${data[0].total - 15000} сум</b> %0A
+      <b>Доставка: 15 000 сум</b> %0A
+      <b>Скидка: ${data[0].discount} сум</b> %0A
+      <b>Итого: ${data[0].total} сум</b> %0A
     `;
 
-      console.log(1);
-
-      await axios.post(
-        `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
-      );
-      await axios.post(
-        `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
-      );
+        await axios.post(
+          `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
+        );
+        await axios.post(
+          `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
+        );
+      }
     } catch (error) {
       console.log(error);
     }
