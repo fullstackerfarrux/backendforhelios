@@ -7,6 +7,7 @@ import postOrderByWebSite from "../Controller/postorderwebsite.controller.js";
 import checkNumber from "../Controller/checkPhonenumber.controller.js";
 import createUser from "../Controller/createUser.controller.js";
 import getOrderByPhoneNumber from "../Controller/getOrdersByPhoneNumber.controller.js";
+import updateStatus from "../Controller/udateStatus.controller.js";
 
 const router = Router();
 
@@ -18,5 +19,6 @@ router.post("/postorderbywebsite", postOrderByWebSite);
 router.post("/checknumber", checkNumber);
 router.post("/createuser", createUser);
 router.post("/getorder", getOrderByPhoneNumber);
+router.post("/updatestatus", updateStatus);
 
 export default router;
