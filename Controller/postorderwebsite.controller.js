@@ -17,7 +17,7 @@ const postOrderByWebSite = async (req, res) => {
     phone_number,
   } = req.body;
   let create = await client.query(
-    "INSERT INTO orders(created_date, products, total, undiscount, dicount, type_payment, username, users_location_text, user_location_cordinate, shipping_method, payment_method, comment, phone_number) values($1, $2, $3, $4, $5, $6)",
+    "INSERT INTO orders(created_date, products, total, undiscount, dicount, type_payment, username, users_location_text, user_location_cordinate, shipping_method, payment_method, comment, phone_number) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)",
     [
       created_date,
       products,
