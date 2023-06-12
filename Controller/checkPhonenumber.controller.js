@@ -28,7 +28,7 @@ const checkNumber = async (req, res) => {
       user_surname: find.rows[0].user_surname,
     });
   } else {
-    res.status(200).send({ msg: "Ok" });
+    res.status(200).send({ message: "User is not exist!", code: "NOT_FOUND" });
   }
 };
 
