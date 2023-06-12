@@ -17,6 +17,6 @@ router.get("/getuser", getuser);
 router.post("/postorderbywebsite", postOrderByWebSite);
 router.post("/checknumber", checkNumber);
 router.post("/createuser", createUser);
-router.post("/postfororder", getOrderByPhoneNumber);
+router.post("/getorder", getOrderByPhoneNumber);
 
 export default router;
