@@ -35,13 +35,13 @@ const postOrderByWebSite = async (req, res) => {
     ]
   );
 
-  console.log(create);
+  console.log(create.command);
 
-  // if (products.length) {
-  //   res.status(200).send({ message: "Created !", code: "CREATED" });
-  // } else {
-  //   res.status(400).send({ message: "Doesn't created" });
-  // }
+  if (create.command == "INSERT") {
+    res.status(200).send({ message: "Created !", code: "CREATED" });
+  } else {
+    res.status(400).send({ message: "Doesn't created" });
+  }
 };
 
 export default postOrderByWebSite;
