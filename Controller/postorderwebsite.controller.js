@@ -35,8 +35,6 @@ const postOrderByWebSite = async (req, res) => {
     ]
   );
 
-  console.log(create.command);
-
   if (create.command == "INSERT") {
     res.status(200).send({ message: "Created !", code: "CREATED" });
   } else {

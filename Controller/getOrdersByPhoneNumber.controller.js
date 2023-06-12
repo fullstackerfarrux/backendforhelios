@@ -9,6 +9,9 @@ const getOrderByPhoneNumber = async (req, res) => {
     [phone_number]
   );
 
+  console.log(findAllOrders[0]);
+  console.log("bez 0", findAllOrders);
+
   if (findAllOrders.length > 0) {
     res.status(200).send({ orders: findAllOrders.rows });
   } else {
