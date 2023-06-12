@@ -14,9 +14,9 @@ const updateStatus = async (req, res) => {
       [type_payment, id]
     );
 
-    console.log(update);
-
-    res.status(200).send({ orders: findOne.rows });
+    if (update.command == "UPDATE") {
+      res.status(200).send({ orders: findOne.rows });
+    }
   } else {
     res.status(400).send({ message: "Not orders" });
   }
