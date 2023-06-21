@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import TelegramBot from "node-telegram-bot-api";
 import axios from "axios";
 import usersandorders from "./Router/orders.router.js";
+import SmartUpApi from "./Router/smartup.router.js";
 
 const app = express();
 
@@ -187,6 +188,7 @@ bot.on("message", async (msg) => {
 });
 
 app.use(usersandorders);
+app.use(SmartUpApi);
 
 app.listen(port, () => {
   console.log(port);
