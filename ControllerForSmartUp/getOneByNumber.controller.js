@@ -1,4 +1,8 @@
 const getOneByNumber = async (req, res) => {
+  let { phone_number } = req.body;
+
+  console.log(req.body);
+
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "text/plain");
   myHeaders.append(
@@ -6,8 +10,13 @@ const getOneByNumber = async (req, res) => {
     "Basic YWRtaW5Aa2FpemVuZ3JvdXA6Z3JlZW53aGl0ZQ=="
   );
 
-  var raw =
-    '{\n   "code": "913901001",\n    "state": "",\n    "begin_created_on": "",\n    "end_created_on": "",\n    "begin_modified_on": "",\n    "end_modified_on": ""\n}';
+  var raw = `{  "code":              ${phone_number},
+                "state":             "",
+                "begin_created_on":  "",
+                "end_created_on":    "",
+                "begin_modified_on": "",
+                "end_modified_on":   ""
+              }`;
 
   var requestOptions = {
     method: "POST",
