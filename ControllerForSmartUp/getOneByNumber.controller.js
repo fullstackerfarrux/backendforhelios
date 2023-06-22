@@ -37,7 +37,7 @@ const getOneByNumber = async (req, res) => {
       let jsonRes = JSON.parse(result);
       res.status(200).send(jsonRes);
     })
-    .catch((error) => res.status(400).send(error));
+    .catch((error) => res.status(400).send({ msg: "USER NOT_FOUND" }));
 };
 
 export default getOneByNumber;

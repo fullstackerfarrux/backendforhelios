@@ -6,5 +6,6 @@ const router = Router();
 
 router.post("/smartup/getByPhone", getOneByNumber);
 router.post("/smartup/createUser", createUSer);
+router.post("/smartup/createOrder", createOrder);
 
 export default router;
