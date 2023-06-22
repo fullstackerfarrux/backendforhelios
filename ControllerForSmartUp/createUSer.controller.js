@@ -10,13 +10,14 @@ const createUSer = async (req, res) => {
 
   var raw = `{
     "legal_person": [{
-        "name": "${first_name}",
-        "short_name": "${first_name}",
-        "code": "${phone_number}",
-        "email": "${email}",
-        "gender":" M",
-        "is_budgetarian": "Y",
-        "state": "A"
+        "name":            "${first_name}",
+        "short_name":      "${first_name}",
+        "code":            "${phone_number}",
+        "email":           "${email}",
+        "gender":          "M",
+        "is_budgetarian":  "Y",
+        "state":           "A",
+        "main_phone":      "+998${phone_number}"
     }]
 }`;
   var requestOptions = {
@@ -25,7 +26,6 @@ const createUSer = async (req, res) => {
     body: raw,
     redirect: "follow",
   };
-
 
   fetch(
     "https://smartup.online/b/anor/mxsx/mr/legal_person$import",
