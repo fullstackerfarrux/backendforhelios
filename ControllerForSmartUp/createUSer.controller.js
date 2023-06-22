@@ -1,8 +1,6 @@
-const getOneByNumber = async (req, res) => {
-  let { phone_number } = req.body;
-
+const createUSer = async (req, res) => {
+  let { first_name, phone_number } = req.body;
   console.log(req.body);
-
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "text/plain");
   myHeaders.append(
@@ -10,15 +8,16 @@ const getOneByNumber = async (req, res) => {
     "Basic YWRtaW5Aa2FpemVuZ3JvdXA6Z3JlZW53aGl0ZQ=="
   );
 
-  var raw = `{  
-                "code":              "${phone_number}",
-                "state":             "",
-                "begin_created_on":  "",
-                "end_created_on":    "",
-                "begin_modified_on": "",
-                "end_modified_on":   ""
-              }`;
-
+  var raw = `{
+    "legal_person": [{
+        "name": "${first_name}",
+        "short_name": "${first_name}",
+        "code": "${phone_number}",
+        "gender":" M",
+        "is_budgetarian": "Y",
+        "state": "A"
+    }]
+}`;
   var requestOptions = {
     method: "POST",
     headers: myHeaders,
@@ -29,7 +28,7 @@ const getOneByNumber = async (req, res) => {
   console.log(raw);
 
   fetch(
-    "https://smartup.online/b/anor/mxsx/mr/legal_person$export",
+    "https://smartup.online/b/anor/mxsx/mr/legal_person$import",
     requestOptions
   )
     .then((response) => response.text())
@@ -40,4 +39,4 @@ const getOneByNumber = async (req, res) => {
     .catch((error) => res.status(400).send(error));
 };
 
-export default getOneByNumber;
+export default createUSer;
