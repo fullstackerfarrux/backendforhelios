@@ -26,8 +26,6 @@ const getOneByNumber = async (req, res) => {
     redirect: "follow",
   };
 
-  console.log(raw);
-
   fetch(
     "https://smartup.online/b/anor/mxsx/mr/legal_person$export",
     requestOptions

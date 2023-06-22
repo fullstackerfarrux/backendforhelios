@@ -1,6 +1,8 @@
 const createUSer = async (req, res) => {
   let { first_name, phone_number, email } = req.body;
 
+  console.log(email);
+
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "text/plain");
   myHeaders.append(
@@ -26,7 +28,7 @@ const createUSer = async (req, res) => {
     body: raw,
     redirect: "follow",
   };
-
+  console.log(raw);
   fetch(
     "https://smartup.online/b/anor/mxsx/mr/legal_person$import",
     requestOptions
