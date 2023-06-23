@@ -1,23 +1,14 @@
 // import { v4 as uuid } from "uuid";
 
 const createOrder = async (req, res) => {
-  // let { total, phone_number, name, order_products, created_date, status } =
-  //   req.body;
   let {
-    deal_id,
-    code,
-    filial_code,
-    person_code,
-    person_name,
-    person_tin,
-    payment_type_code,
-    self_shipment,
+    deal_time,
+    created_date,
+    total,
+    phone_number,
+    client_name,
     order_products,
-    product_unit_id,
   } = req.body.order[0];
-
-  //   console.log(req.body.order[0]);
-  //   console.log(total);
 
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "text/plain");
@@ -28,61 +19,83 @@ const createOrder = async (req, res) => {
   myHeaders.append("project_code", "trade");
   myHeaders.append("filial_id", "2632143");
 
-  //    deal_time: `${deal_time}`,
-  //         filial_code: "2632143",
-  //         delivery_date: `${delivery_date}`,
-  //         total_amount: `${total}`,
-  //         person_code: `${phone_number}`,
-  //         person_name: `${person_name}`,
-
-  // var raw = JSON.stringify({
-  //   order: [
-  //     {
-  //       deal_id,
-  //       deal_time: `22.06.22 16:04`,
-  //       code,
-  //       filial_code,
-  //       delivery_date: `22.06.22`,
-  //       total_amount: `1230966`,
-  //       person_code: `903152006`,
-  //       person_name: `Farrux`,
-  //       person_tin: "200407720",
-  //       payment_type_code: "PYMT:3",
-  //       status: "B#N",
-  //       self_shipment: "N",
-  //       order_products: [
-  //         {
-  //           product_unit_id: "152367699",
-  //           product_name:
-  //             "GNX 0401 Шатун Исузу Турция / Guneybaglilar / Турция",
-  //           order_quant: "5",
-  //           sold_quant: "5",
-  //           inventory_kind: "G",
-  //           product_price: "370000",
-  //           sold_amount: "1850000",
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // });
-
-
   var raw = JSON.stringify({
     order: [
       {
-        deal_id,
-        deal_time: `22.06.22 16:04`,
-        code,
-        filial_code,
-        delivery_date: `22.06.22`,
-        total_amount: `1230966`,
-        person_code,
-        person_name,
-        person_tin,
-        payment_type_code,
-        status: "B#N",
-        self_shipment,
-        order_products,
+        filial_code: "170077",
+        external_id: null,
+        deal_id: "",
+        subfilial_code: null,
+        deal_time,
+        delivery_number: null,
+        delivery_date: created_date,
+        booked_date: created_date,
+        total_amount: total,
+        room_id: "40622",
+        room_code: "70777",
+        room_name: "Website&Bot",
+        robot_code: "967777070",
+        lap_code: null,
+        sales_manager_id: "3125770",
+        sales_manager_code: "967777070",
+        sales_manager_name: "Website&Bot Website&Bot",
+        expeditor_id: null,
+        expeditor_code: null,
+        expeditor_name: null,
+        person_id: "2632576",
+        person_code: phone_number,
+        person_name: client_name,
+        person_local_code: null,
+        person_latitude: null,
+        person_longitude: null,
+        person_tin: "306088179",
+        currency_code: "860",
+        owner_person_code: "913901001",
+        manager_code: null,
+        van_code: null,
+        contract_code: null,
+        contract_number: null,
+        invoice_number: null,
+        payment_type_code: "PYMT:1",
+        visit_payment_type_code: null,
+        note: "new order test api v2",
+        status: "D",
+        with_marking: "N",
+        self_shipment: "N",
+        total_weight_netto: "0",
+        total_weight_brutto: "0",
+        total_litre: "0",
+        order_products: [
+          order_products.map((data, index) => {
+            return {
+              external_id: null,
+              product_unit_id: "",
+              product_code: "87114",
+              product_local_code: null,
+              product_name: data.product_name,
+              serial_number: null,
+              expiry_date: null,
+              order_quant: "1",
+              sold_quant: "1",
+              return_quant: "0",
+              inventory_kind: "G",
+              on_balance: "Y",
+              card_code: null,
+              warehouse_code: "123",
+              product_price: data.product_price,
+              margin_amount: "0",
+              margin_value: "0",
+              margin_kind: "P",
+              vat_amount: "4928.571429",
+              vat_percent: "12",
+              sold_amount: data.product_price,
+              price_type_code: "123",
+            };
+          }),
+        ],
+        order_gifts: [],
+        order_actions: [],
+        order_consignments: [],
       },
     ],
   });
