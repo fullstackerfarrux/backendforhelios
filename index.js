@@ -110,7 +110,7 @@ bot.on("message", async (msg) => {
     number.unshift(resN);
 
     try {
-      const data = JSON.parse(msg?.web_app_data?.data);
+      const data = JSON.parse(msg.web_app_data.data);
       let UsersData = [];
       let products = [];
       let total = +data[0].total;
@@ -119,7 +119,7 @@ bot.on("message", async (msg) => {
         products.push(data[i]);
       }
 
-      if (msg?.web_app_data?.data.length >= 0) {
+      if (msg.web_app_data.data.length >= 0) {
         let create = await client.query(
           "INSERT INTO orders(products, total) values($1, $2)",
           [products, total]
@@ -170,7 +170,7 @@ bot.on("message", async (msg) => {
 });
 
 bot.on("message", async (msg) => {
-  if (msg?.web_app_data?.data) {
+  if (msg.web_app_data.data) {
     await bot.sendMessage(
       msg.chat.id,
       `Buyurtmangiz qabul qilindi tez orada operatorarlar siz bilan bog'lanishadi`,
