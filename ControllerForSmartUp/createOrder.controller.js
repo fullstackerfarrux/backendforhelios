@@ -13,7 +13,8 @@ const createOrder = async (req, res) => {
     payment_type_code,
     self_shipment,
     order_products,
-  } = req.body;
+    product_unit_id,
+  } = req.body.order[0];
 
   //   console.log(req.body.order[0]);
   //   console.log(total);
@@ -33,6 +34,38 @@ const createOrder = async (req, res) => {
   //         total_amount: `${total}`,
   //         person_code: `${phone_number}`,
   //         person_name: `${person_name}`,
+
+  // var raw = JSON.stringify({
+  //   order: [
+  //     {
+  //       deal_id,
+  //       deal_time: `22.06.22 16:04`,
+  //       code,
+  //       filial_code,
+  //       delivery_date: `22.06.22`,
+  //       total_amount: `1230966`,
+  //       person_code: `903152006`,
+  //       person_name: `Farrux`,
+  //       person_tin: "200407720",
+  //       payment_type_code: "PYMT:3",
+  //       status: "B#N",
+  //       self_shipment: "N",
+  //       order_products: [
+  //         {
+  //           product_unit_id: "152367699",
+  //           product_name:
+  //             "GNX 0401 Шатун Исузу Турция / Guneybaglilar / Турция",
+  //           order_quant: "5",
+  //           sold_quant: "5",
+  //           inventory_kind: "G",
+  //           product_price: "370000",
+  //           sold_amount: "1850000",
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // });
+
 
   var raw = JSON.stringify({
     order: [
