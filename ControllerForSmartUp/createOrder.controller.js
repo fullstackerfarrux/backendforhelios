@@ -9,7 +9,7 @@ const createOrder = async (req, res) => {
     client_name,
     order_products,
   } = req.body.order[0];
-
+  console.log(order_products);
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "text/plain");
   myHeaders.append(
@@ -24,7 +24,7 @@ const createOrder = async (req, res) => {
       {
         filial_code: "170077",
         external_id: null,
-        deal_id: "",
+        deal_id: "999999999",
         subfilial_code: null,
         deal_time,
         delivery_number: null,
@@ -65,7 +65,7 @@ const createOrder = async (req, res) => {
         total_weight_netto: "0",
         total_weight_brutto: "0",
         total_litre: "0",
-        order_products: [
+        order_products: 
           order_products.map((data, index) => {
             return {
               external_id: null,
@@ -92,13 +92,17 @@ const createOrder = async (req, res) => {
               price_type_code: "123",
             };
           }),
-        ],
+
         order_gifts: [],
         order_actions: [],
         order_consignments: [],
       },
     ],
   });
+
+  // "product_name": "test product name",
+  // "product_price": "560000"
+  // console.log(JSON.parse(raw));
 
   var requestOptions = {
     method: "POST",
