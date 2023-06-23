@@ -36,7 +36,7 @@ create table orders(
 );
 
 insert into allusers(user_id, tg_username, phone_number, users_location, user_language ) values(23453, 'fulstacker', '998903152006', ARRAY[41.7823662, 69.1152], 'ru');
-insert into orders(products, total, by_username) values('{Подножка кабины правая x 1  1900000}', 1900000, 'fulstacker');
+insert into orders(products, total, username, created_date, undiscount, dicount) values('{Подножка кабины правая x 1  1900000}', 1900000, 'fulstacker', '23.06.2023', 0,0);
 
 
 DELETE FROM tgusers

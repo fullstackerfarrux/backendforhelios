@@ -1,8 +1,19 @@
 // import { v4 as uuid } from "uuid";
 
 const createOrder = async (req, res) => {
-  let { total, phone_number, name, order_products, created_date, status } =
-    req.body;
+  // let { total, phone_number, name, order_products, created_date, status } =
+  //   req.body;
+  let {
+    deal_id,
+    code,
+    filial_code,
+    person_code,
+    person_name,
+    person_tin,
+    payment_type_code,
+    self_shipment,
+    order_products,
+  } = req.body;
 
   //   console.log(req.body.order[0]);
   //   console.log(total);
@@ -16,40 +27,29 @@ const createOrder = async (req, res) => {
   myHeaders.append("project_code", "trade");
   myHeaders.append("filial_id", "2632143");
 
-//    deal_time: `${deal_time}`,
-//         filial_code: "2632143",
-//         delivery_date: `${delivery_date}`,
-//         total_amount: `${total}`,
-//         person_code: `${phone_number}`,
-//         person_name: `${person_name}`,
+  //    deal_time: `${deal_time}`,
+  //         filial_code: "2632143",
+  //         delivery_date: `${delivery_date}`,
+  //         total_amount: `${total}`,
+  //         person_code: `${phone_number}`,
+  //         person_name: `${person_name}`,
 
   var raw = JSON.stringify({
     order: [
       {
-        // deal_id: "2632143",
+        deal_id,
         deal_time: `22.06.22 16:04`,
-        code: "2632143",
-        filial_code: "2632143",
+        code,
+        filial_code,
         delivery_date: `22.06.22`,
         total_amount: `1230966`,
-        person_code: `903152006`,
-        person_name: `Farrux`,
-        person_tin: "200407720",
-        payment_type_code: "PYMT:3",
+        person_code,
+        person_name,
+        person_tin,
+        payment_type_code,
         status: "B#N",
-        self_shipment: "N",
-        order_products: [
-          {
-            product_unit_id: "152367699",
-            product_name:
-              "GNX 0401 Шатун Исузу Турция / Guneybaglilar / Турция",
-            order_quant: "5",
-            sold_quant: "5",
-            inventory_kind: "G",
-            product_price: "370000",
-            sold_amount: "1850000",
-          },
-        ],
+        self_shipment,
+        order_products,
       },
     ],
   });
