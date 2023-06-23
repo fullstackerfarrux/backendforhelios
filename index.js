@@ -105,7 +105,7 @@ bot.on("location", async (msg) => {
 });
 
 bot.on("message", async (msg) => {
-  if (msg?.web_app_data?.data) {
+  if (msg.web_app_data.data) {
     let resN = number[0] + 1;
     number.unshift(resN);
 
@@ -170,7 +170,6 @@ bot.on("message", async (msg) => {
 });
 
 bot.on("message", async (msg) => {
-  console.log(msg);
   if (msg?.web_app_data?.data) {
     await bot.sendMessage(
       msg.chat.id,
