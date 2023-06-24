@@ -1,5 +1,5 @@
 const createUser = async (req, res) => {
-  let { first_name, phone_number, email, tin } = req.body;
+  let { first_name, phone_number, email } = req.body;
 
   console.log("changed");
 
@@ -9,6 +9,8 @@ const createUser = async (req, res) => {
     "Authorization",
     "Basic YWRtaW5Aa2FpemVuZ3JvdXA6Z3JlZW53aGl0ZQ=="
   );
+  myHeaders.append("project_code", "trade");
+  myHeaders.append("filial_id", "2632143");
 
   var raw = `{
       "legal_person": [{
