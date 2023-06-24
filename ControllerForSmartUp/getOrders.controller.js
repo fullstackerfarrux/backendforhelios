@@ -1,4 +1,4 @@
-export default getOrders = async (req, res) => {
+const getOrders = async (req, res) => {
   let { phone_number } = req.body;
 
   var myHeaders = new Headers();
@@ -40,3 +40,4 @@ export default getOrders = async (req, res) => {
     .then((result) => res.status(200).send(result))
     .catch((error) => console.log("error", error));
 };
+export default getOrders;
