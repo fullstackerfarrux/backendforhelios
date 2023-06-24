@@ -12,7 +12,7 @@ const createOrder = async (req, res) => {
     note,
     order_products,
     self_shipment,
-  } = req.body.order[0];
+  } = req.body;
   console.log(order_products);
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "text/plain");
