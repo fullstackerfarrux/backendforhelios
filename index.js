@@ -4,8 +4,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import TelegramBot from "node-telegram-bot-api";
 import axios from "axios";
-import usersandorders from "./Router/orders.router.js";
-import SmartUpApi from "./Router/smartup.router.js";
+import usersandorders from "./router/orders.router.js";
+import SmartUpApi from "./router/smartup.router.js";
 
 const app = express();
 
