@@ -1,7 +1,7 @@
 import { Router } from "express";
-import getOneByNumber from "../controllerForSmartUp/getOneByNumber.controller.js";
+import getOneByNumber from "../ControllerForSmartUp/getOneByNumber.controller.js";
 // import createUSer from "../ControllerForSmartUp/createUser.controller.js";
-import createOrder from "../controllerForSmartUp/createOrder.controller.js";
+import createOrder from "../ControllerForSmartUp/createOrder.controller.js";
 
 const router = Router();
 

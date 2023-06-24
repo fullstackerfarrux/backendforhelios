@@ -1,13 +1,13 @@
 import { Router } from "express";
-import postUser from "../controller/users.controller.js";
-import postOrder from "../controller/orders.controller.js";
-import getOrder from "../controller/getorders.controller.js";
-import getuser from "../controller/getuser.controller.js";
-import postOrderByWebSite from "../controller/postorderwebsite.controller.js";
-import checkNumber from "../controller/checkPhonenumber.controller.js";
-import createUser from "../controller/createUser.controller.js";
-import getOrderByPhoneNumber from "../controller/getOrdersByPhoneNumber.controller.js";
-import updateStatus from "../controller/udateStatus.controller.js";
+import postUser from "../Controller/users.controller.js";
+import postOrder from "../Controller/orders.controller.js";
+import getOrder from "../Controller/getorders.controller.js";
+import getuser from "../Controller/getuser.controller.js";
+import postOrderByWebSite from "../Controller/postorderwebsite.controller.js";
+import checkNumber from "../Controller/checkPhonenumber.controller.js";
+import createUser from "../Controller/createUser.controller.js";
+import getOrderByPhoneNumber from "../Controller/getOrdersByPhoneNumber.controller.js";
+import updateStatus from "../Controller/udateStatus.controller.js";
 
 const router = Router();
 
