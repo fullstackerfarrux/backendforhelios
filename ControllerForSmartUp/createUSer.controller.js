@@ -1,5 +1,5 @@
 const createUser = async (req, res) => {
-  let { first_name, phone_number, email } = req.body;
+  let { first_name, phone_number } = req.body;
 
   console.log("changed");
 
@@ -17,7 +17,6 @@ const createUser = async (req, res) => {
           "name":            "${first_name}",
           "short_name":      "${first_name}",
           "code":            "${phone_number}",
-          "email":           "${email}",
           "gender":          "M",
           "is_budgetarian":  "Y",
           "state":           "A",
