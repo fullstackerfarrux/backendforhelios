@@ -23,7 +23,6 @@ const createOrder = async (req, res) => {
   myHeaders.append("project_code", "trade");
   myHeaders.append("filial_id", "2632143");
 
-
   var raw = JSON.stringify({
     order: [
       {
@@ -74,13 +73,13 @@ const createOrder = async (req, res) => {
           return {
             external_id: null,
             product_unit_id: "",
-            product_code: "87114",
+            product_code: data.product_code,
             product_local_code: null,
             product_name: data.product_name,
             serial_number: null,
             expiry_date: null,
-            order_quant: "1",
-            sold_quant: "1",
+            order_quant: data.product_quant,
+            sold_quant: data.product_quant,
             return_quant: "0",
             inventory_kind: "G",
             on_balance: "Y",

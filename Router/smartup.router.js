@@ -3,11 +3,13 @@ import getOneByNumber from "../ControllerForSmartUp/getOneByNumber.controller.js
 import createOrder from "../ControllerForSmartUp/createOrder.controller.js";
 import createUser from "../ControllerForSmartUp/createUSer.controller.js";
 import getOrdersController from "../ControllerForSmartUp/getOrders.controller.js";
+import updateUser from "../ControllerForSmartUp/updateUser.controller.js";
 
 const router = Router();
 
 router.post("/smartup/getByPhone", getOneByNumber);
 router.post("/smartup/createUser", createUser);
+router.post("/smartup/updateUser", updateUser);
 router.post("/smartup/createOrder", createOrder);
 router.post("/smartup/getOrder", getOrdersController);
 

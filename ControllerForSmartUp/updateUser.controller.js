@@ -1,5 +1,5 @@
-const createUser = async (req, res) => {
-  let { first_name, phone_number } = req.body;
+const updateUser = async (req, res) => {
+  let { person_name, email, address, note, phone_number } = req.body;
 
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "text/plain");
@@ -12,14 +12,17 @@ const createUser = async (req, res) => {
 
   var raw = `{
       "legal_person": [{
-          "name":            "${first_name}",
-          "short_name":      "${first_name}",
+          "name":            "${person_name}",
+          "short_name":      "${person_name}",
           "code":            "${phone_number}",
           "gender":          "M",
           "is_budgetarian":  "Y",
           "state":           "A",
           "main_phone":      "+998${phone_number}",
-          "is_client":       "Y"
+          "is_client":       "Y",
+          "email":           "${email}",
+          "address":         "${address}",
+          "note":            "${note}"
       }]
   }`;
 
@@ -42,4 +45,4 @@ const createUser = async (req, res) => {
     .catch((error) => res.status(400).send(error));
 };
 
-export default createUser;
+export default updateUser;
