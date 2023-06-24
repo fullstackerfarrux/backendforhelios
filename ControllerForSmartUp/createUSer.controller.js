@@ -1,5 +1,5 @@
 const createUSer = async (req, res) => {
-  let { first_name, phone_number, email } = req.body;
+  let { first_name, phone_number, email, tin } = req.body;
 
   console.log(email);
 
@@ -19,7 +19,8 @@ const createUSer = async (req, res) => {
         "gender":          "M",
         "is_budgetarian":  "Y",
         "state":           "A",
-        "main_phone":      "+998${phone_number}"
+        "main_phone":      "+998${phone_number}",
+        "tin":             "${phone_number}"
     }]
 }`;
   var requestOptions = {
