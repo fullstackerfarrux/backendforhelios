@@ -1,5 +1,3 @@
-// import { v4 as uuid } from "uuid";
-
 const createOrder = async (req, res) => {
   let {
     deal_time,
@@ -24,7 +22,7 @@ const createOrder = async (req, res) => {
       {
         filial_code: "170077",
         external_id: null,
-        deal_id: "",
+        deal_id: "999999999",
         subfilial_code: null,
         deal_time,
         delivery_number: null,
