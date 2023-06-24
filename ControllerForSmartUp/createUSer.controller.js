@@ -1,7 +1,7 @@
 const createUSer = async (req, res) => {
   let { first_name, phone_number, email, tin } = req.body;
 
-  console.log(email);
+  console.log("changed");
 
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "text/plain");
