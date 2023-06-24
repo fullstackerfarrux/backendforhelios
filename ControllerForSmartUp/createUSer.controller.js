@@ -1,4 +1,4 @@
-const createUSer = async (req, res) => {
+const createUser = async (req, res) => {
   let { first_name, phone_number, email, tin } = req.body;
 
   console.log("changed");
@@ -95,4 +95,4 @@ const createUSer = async (req, res) => {
     .catch((error) => res.status(400).send(error));
 };
 
-export default createUSer;
+export default createUser;
