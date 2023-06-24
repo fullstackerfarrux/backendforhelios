@@ -34,10 +34,11 @@ const getOrders = async (req, res) => {
     body: raw,
     redirect: "follow",
   };
+  console.log(ok);
 
   fetch("https://smartup.online/b/trade/txs/tdeal/order$export", requestOptions)
     .then((response) => response.text())
-    .then((result) => res.status(200).send(result))
+    .then((result) => res.status(200).send())
     .catch((error) => console.log("error", error));
 };
 export default getOrders;

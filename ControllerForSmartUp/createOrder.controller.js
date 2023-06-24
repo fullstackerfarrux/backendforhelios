@@ -7,7 +7,11 @@ const createOrder = async (req, res) => {
     total,
     phone_number,
     client_name,
+    person_latitude,
+    person_longitude,
+    note,
     order_products,
+    self_shipment,
   } = req.body.order[0];
   console.log(order_products);
   var myHeaders = new Headers();
@@ -18,6 +22,7 @@ const createOrder = async (req, res) => {
   );
   myHeaders.append("project_code", "trade");
   myHeaders.append("filial_id", "2632143");
+
 
   var raw = JSON.stringify({
     order: [
@@ -46,8 +51,8 @@ const createOrder = async (req, res) => {
         person_code: phone_number,
         person_name: client_name,
         person_local_code: null,
-        person_latitude: null,
-        person_longitude: null,
+        person_latitude,
+        person_longitude,
         person_tin: "306088179",
         currency_code: "860",
         owner_person_code: "913901001",
@@ -58,10 +63,10 @@ const createOrder = async (req, res) => {
         invoice_number: null,
         payment_type_code: "PYMT:1",
         visit_payment_type_code: null,
-        note: "new order test api v2",
+        note,
         status: "D",
         with_marking: "N",
-        self_shipment: "N",
+        self_shipment,
         total_weight_netto: "0",
         total_weight_brutto: "0",
         total_litre: "0",
