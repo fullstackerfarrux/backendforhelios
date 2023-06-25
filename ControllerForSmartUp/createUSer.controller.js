@@ -15,11 +15,12 @@ const createUser = async (req, res) => {
           "name":            "${first_name}",
           "short_name":      "${first_name}",
           "code":            "${phone_number}",
-          "gender":          "M",
+          "gender":          "${gender}",
           "is_budgetarian":  "Y",
           "state":           "A",
           "main_phone":      "+998${phone_number}",
-          "is_client":       "Y"
+          "is_client":       "Y",
+          "email":           "${email}"
       }]
   }`;
 
