@@ -1,4 +1,4 @@
-const createOrder = async (req, res) => {
+const updateOrder = async (req, res) => {
   let {
     deal_time,
     created_date,
@@ -112,4 +112,4 @@ const createOrder = async (req, res) => {
     .catch((error) => console.log("error", error));
 };
 
-export default createOrder;
+export default updateOrder;
