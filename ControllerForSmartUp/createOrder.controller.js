@@ -46,7 +46,6 @@ const createOrder = async (req, res) => {
         expeditor_id: null,
         expeditor_code: null,
         expeditor_name: null,
-        person_id: "2632576",
         person_code: phone_number,
         person_name: client_name,
         person_local_code: null,
