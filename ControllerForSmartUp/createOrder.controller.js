@@ -10,6 +10,7 @@ const createOrder = async (req, res) => {
     person_latitude,
     person_longitude,
     note,
+    payment_type,
     order_products,
     self_shipment,
   } = req.body;
@@ -59,7 +60,7 @@ const createOrder = async (req, res) => {
         contract_code: null,
         contract_number: null,
         invoice_number: null,
-        payment_type_code: "PYMT:1",
+        payment_type_code: payment_type,
         visit_payment_type_code: null,
         note,
         status: "D",
