@@ -44,6 +44,8 @@ const getOrders = async (req, res) => {
       if (findOrder.length == 0) {
         return res.status(400).send({ message: "NOT FOUND" });
       }
+
+      findOrder.reverse();
       res.status(200).send(findOrder);
     })
     .catch((error) => console.log("error", error));
