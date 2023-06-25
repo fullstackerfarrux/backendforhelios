@@ -10,7 +10,6 @@ const updateOrder = async (req, res) => {
     order_status,
     order_products,
   } = req.body;
-  console.log(order_products);
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "text/plain");
   myHeaders.append(
@@ -137,8 +136,8 @@ const updateOrder = async (req, res) => {
     invoice_number: null,
     payment_type_code: "PYMT:1",
     visit_payment_type_code: null,
-    note: "ADRESS: Yunusobod \r             NOTE: web test",
-    status: "D",
+    note: "ADRESS: Yunusobod           NOTE: web test",
+    status: "C",
     with_marking: "N",
     self_shipment: "Y",
     total_weight_netto: "0",
