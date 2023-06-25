@@ -8,7 +8,7 @@ const updateOrder = async (req, res) => {
     note,
     order_status,
     order_products,
-  } = req.body.order[0];
+  } = req.body;
   console.log(order_products);
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "text/plain");
@@ -69,7 +69,7 @@ const updateOrder = async (req, res) => {
           return {
             external_id: null,
             product_unit_id: "",
-            product_code: "87114",
+            product_code: data.product_code,
             product_local_code: null,
             product_name: data.product_name,
             serial_number: null,
