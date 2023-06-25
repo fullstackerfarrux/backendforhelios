@@ -1,5 +1,6 @@
 const updateUser = async (req, res) => {
-  let { person_name, email, address, note, phone_number, gender } = req.body;
+  let { person_name, email, address, note, phone_number, gender } =
+    req.body.legal_person[0];
 
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "text/plain");
