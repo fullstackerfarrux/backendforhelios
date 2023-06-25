@@ -2,6 +2,9 @@ const updateUser = async (req, res) => {
   let { person_name, email, address, phone_number, gender, address_guide } =
     req.body;
 
+  console.log(email);
+  console.log(gender);
+
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "text/plain");
   myHeaders.append(
@@ -16,7 +19,6 @@ const updateUser = async (req, res) => {
           "name":            "${person_name}",
           "short_name":      "${person_name}",
           "code":            "${phone_number}",
-          "gender":          "${gender}",
           "is_budgetarian":  "Y",
           "state":           "A",
           "main_phone":      "+998${phone_number}",
@@ -27,13 +29,30 @@ const updateUser = async (req, res) => {
       }]
   }`;
 
+  var raw = JSON.stringify({
+    legal_person: [
+      {
+        name: person_name,
+        short_name: person_name,
+        code: phone_number,
+        is_budgetarian: "Y",
+        state: "A",
+        main_phone: "+998" + phone_number,
+        is_client: "Y",
+        email,
+        address: address,
+        address_guide: address_guide,
+      },
+    ],
+  });
+
   var requestOptions = {
     method: "POST",
     headers: myHeaders,
     body: raw,
     redirect: "follow",
   };
-
+  console.log(raw);
   fetch(
     "https://smartup.online/b/anor/mxsx/mr/legal_person$import",
     requestOptions
