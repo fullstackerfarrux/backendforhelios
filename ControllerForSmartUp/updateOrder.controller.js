@@ -8,9 +8,12 @@ const updateOrder = async (req, res) => {
     client_name,
     payment_type,
     note,
+    self_shipment,
     order_status,
     order_products,
   } = req.body;
+  console.log(req.body);
+  console.log(order_products);
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "text/plain");
   myHeaders.append(
