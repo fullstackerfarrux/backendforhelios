@@ -1,5 +1,6 @@
 const updateOrder = async (req, res) => {
   let {
+    deal_id,
     deal_time,
     created_date,
     total,
@@ -24,7 +25,7 @@ const updateOrder = async (req, res) => {
       {
         filial_code: "170077",
         external_id: null,
-        deal_id: "999999999",
+        deal_id,
         subfilial_code: null,
         deal_time,
         delivery_number: null,
