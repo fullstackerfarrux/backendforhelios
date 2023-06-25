@@ -23,7 +23,7 @@ const updateUser = async (req, res) => {
           "is_client":       "Y",
           "email":           "${email}",
           "address":         "${address}",
-          "note":            "${note}"
+          "address_guide":   "${address_guide}"
       }]
   }`;
 
