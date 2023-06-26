@@ -14,6 +14,9 @@ const createOrder = async (req, res) => {
     self_shipment,
     order_products,
   } = req.body;
+
+  console.log(order_products);
+  console.log(deal_time);
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "text/plain");
   myHeaders.append(
