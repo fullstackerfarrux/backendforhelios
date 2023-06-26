@@ -112,7 +112,9 @@ bot.on("message", async (msg) => {
     number.unshift(resN);
 
     try {
+      console.log("web", msg.web_app_data.data);
       const data = JSON.parse(msg.web_app_data.data);
+      console.log("data", data);
       let UsersData = [];
       let products = [];
       let total = +data[0].total;
@@ -136,6 +138,7 @@ bot.on("message", async (msg) => {
           "INSERT INTO orders(products, total, created_date, username) values($1, $2, $3, $4)",
           [products, total, created_date, get.rows[0].tg_username]
         );
+        console.log(data[0]);
 
         let max = await client.query("SELECT MAX(id) FROM orders");
 
@@ -166,7 +169,6 @@ bot.on("message", async (msg) => {
         await axios.post(
           `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
         );
-        console.log(data[0]);
         await axios
           .post(`https://api.kaizen-group.uz/smartup/createOrder`, data[0])
           .then((res) => {
