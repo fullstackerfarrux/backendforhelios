@@ -138,12 +138,11 @@ bot.on("message", async (msg) => {
         );
 
         let max = await client.query("SELECT MAX(id) FROM orders");
-        console.log(max.rows);
 
         const token = process.env.TelegramApi;
         const chat_id = process.env.CHAT_ID;
         const message = ` <b>Заявка с бота!</b> %0A
-      <b>Заказ номер: ${max.rows.max}</b> %0A
+      <b>Заказ номер: ${max.rows[0].max}</b> %0A
        <b>Имя пользователя: @${get.rows[0].tg_username}</b> %0A
        <b>Адрес: ${get.rows[0].users_location[0]}, ${
           get.rows[0].users_location[1]
@@ -167,6 +166,7 @@ bot.on("message", async (msg) => {
         await axios.post(
           `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
         );
+        console.log(data[0]);
         await axios
           .post(`https://api.kaizen-group.uz/smartup/createOrder`, data[0])
           .then((res) => {
@@ -190,7 +190,7 @@ bot.on("message", async (msg) => {
       {
         reply_markup: JSON.stringify({
           keyboard: [
-            [{ text: "Изменить геопезицию", request_location: true }],
+            [{ text: "Создать новый заказ", request_location: true }],
             [{ text: "Проверить статус заказа" }],
           ],
           resize_keyboard: true,
