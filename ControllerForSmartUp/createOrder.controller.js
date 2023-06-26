@@ -1,6 +1,7 @@
 // import { v4 as uuid } from "uuid";
 
 const createOrder = async (req, res) => {
+  console.log("request cretaeOrder", req.body);
   let {
     deal_time,
     created_date,

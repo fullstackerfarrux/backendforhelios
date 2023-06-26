@@ -159,6 +159,7 @@ bot.on("message", async (msg) => {
       <b>Скидка: ${data.discount} сум</b> %0A
       <b>Итого: ${data.total} сум</b> %0A
     `;
+        // let requestData = { ,  };
 
         // await axios.post(
         //   `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
