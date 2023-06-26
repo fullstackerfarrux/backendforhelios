@@ -112,19 +112,17 @@ bot.on("message", async (msg) => {
     number.unshift(resN);
 
     try {
-      console.log("web", msg.web_app_data.data);
       const data = JSON.parse(msg.web_app_data.data);
       console.log("data", data);
       let UsersData = [];
       let products = [];
-      let total = +data[0].total;
+      let total = +data.total;
 
-      for (let i = 0; i < data.length; i++) {
-        products.push(data[i]);
+      for (let i = 0; i < data.order_products.length; i++) {
+        products.push(data.order_products[i]);
       }
 
       if (msg.web_app_data.data.length >= 0) {
-        console.log(data);
         let get = await client.query(
           "SELECT * FROM allusers where user_id = $1",
           [userInfo.user_id]
@@ -138,7 +136,6 @@ bot.on("message", async (msg) => {
           "INSERT INTO orders(products, total, created_date, username) values($1, $2, $3, $4)",
           [products, total, created_date, get.rows[0].tg_username]
         );
-        console.log(data[0]);
 
         let max = await client.query("SELECT MAX(id) FROM orders");
 
@@ -170,7 +167,7 @@ bot.on("message", async (msg) => {
           `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
         );
         await axios
-          .post(`https://api.kaizen-group.uz/smartup/createOrder`, data[0])
+          .post(`https://api.kaizen-group.uz/smartup/createOrder`, data)
           .then((res) => {
             console.log("res", res);
           })
@@ -193,7 +190,7 @@ bot.on("message", async (msg) => {
         reply_markup: JSON.stringify({
           keyboard: [
             [{ text: "Создать новый заказ", request_location: true }],
-            [{ text: "Проверить статус заказа" }],
+            [{ text: "Проверить статус заказы" }],
           ],
           resize_keyboard: true,
         }),
