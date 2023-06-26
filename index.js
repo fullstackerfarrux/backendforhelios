@@ -178,7 +178,7 @@ bot.on("message", async (msg) => {
         await fetch(`https://api.kaizen-group.uz/smartup/createOrder`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ data }),
+          body: JSON.stringify({ requestData }),
         })
           .then((res) => {
             console.log("res", res);
