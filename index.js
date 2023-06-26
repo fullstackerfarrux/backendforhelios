@@ -107,7 +107,7 @@ bot.on("location", async (msg) => {
 });
 
 bot.on("message", async (msg) => {
-  if (msg.web_app_data.data) {
+  if (msg.web_app_data?.data) {
     let resN = number[0] + 1;
     number.unshift(resN);
 
@@ -122,9 +122,14 @@ bot.on("message", async (msg) => {
       }
 
       if (msg.web_app_data.data.length >= 0) {
+        let date = new Date();
+        let month = date.getMonth();
+        let day = date.getDate();
+        let year = date.getFullYear();
+        let created_date = `${month}.${day}.${year}`;
         let create = await client.query(
-          "INSERT INTO orders(products, total) values($1, $2)",
-          [products, total]
+          "INSERT INTO orders(products, total, created_date) values($1, $2, $3, $4)",
+          [products, total, created_date, get.rows[0].tg_username]
         );
 
         console.log("post order ned");
@@ -172,7 +177,7 @@ bot.on("message", async (msg) => {
 });
 
 bot.on("message", async (msg) => {
-  if (msg.web_app_data.data) {
+  if (msg.web_app_data?.data) {
     await bot.sendMessage(
       msg.chat.id,
       `Buyurtmangiz qabul qilindi tez orada operatorarlar siz bilan bog'lanishadi`,
