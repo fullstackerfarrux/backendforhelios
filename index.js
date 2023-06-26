@@ -82,6 +82,7 @@ bot.on("location", async (msg) => {
         userInfo.language,
       ]
     );
+    console.log(hello);
   } else {
     let update = await client.query(
       "UPDATE allusers SET users_location = $1 where user_id = $2",
@@ -107,6 +108,7 @@ bot.on("location", async (msg) => {
 });
 
 bot.on("message", async (msg) => {
+  console.log("msg_webAPp", msg.web_app_data);
   if (msg.web_app_data?.data) {
     let resN = number[0] + 1;
     number.unshift(resN);
