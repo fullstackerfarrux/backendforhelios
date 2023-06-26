@@ -164,7 +164,7 @@ bot.on("message", async (msg) => {
           person_latitude: get.rows[0].users_location[0],
           person_longitude: get.rows[0].users_location[1],
           note: "test",
-          totalmi: `${data.total}`
+          totalmi: `${data.total}`,
           ...data,
         };
 
