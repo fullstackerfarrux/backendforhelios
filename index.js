@@ -138,6 +138,7 @@ bot.on("message", async (msg) => {
         );
 
         let max = await client.query("SELECT MAX(id) FROM orders");
+        console.log(max.rows);
 
         const token = process.env.TelegramApi;
         const chat_id = process.env.CHAT_ID;
@@ -166,14 +167,14 @@ bot.on("message", async (msg) => {
         await axios.post(
           `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
         );
-        // await axios
-        //   .post(`https://api.kaizen-group.uz/smartup/createOrder`, requestBody)
-        //   .then((res) => {
-        //     console.log("res", res);
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //   });
+        await axios
+          .post(`https://api.kaizen-group.uz/smartup/createOrder`, data[0])
+          .then((res) => {
+            console.log("res", res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     } catch (error) {
       console.log("error ->", error);
