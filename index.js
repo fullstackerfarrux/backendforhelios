@@ -24,11 +24,9 @@ let userInfo = {};
 bot.onText(/start/, async (msg) => {
   bot.sendMessage(
     msg.chat.id,
-    `Здравствуйте ${msg.chat.first_name}! %0A
-            Добро пожаловать! Я официальный бот Kaizen Group. %0A
-            Здесь можно посмотреть меню и заказать на дом! %0A
-
-     Выберите продукты из раздела Меню`,
+    `Здравствуйте ${msg.chat.first_name}!
+       Добро пожаловать! Я официальный бот Kaizen Group.
+       Здесь можно посмотреть меню и заказать на дом!`,
     {
       reply_markup: JSON.stringify({
         keyboard: [[{ text: "Отправить контакт", request_contact: true }]],
@@ -91,25 +89,21 @@ bot.on("location", async (msg) => {
     );
   }
 
-  bot.sendMessage(
-    msg.chat.id,
-    `Отлично! Для выбора товара нажмите на кнопку "Меню"`,
-    {
-      reply_markup: JSON.stringify({
-        keyboard: [
-          [
-            {
-              text: `Меню`,
-              web_app: {
-                url: `${webAppUrl}`,
-              },
+  bot.sendMessage(msg.chat.id, `Выберите продукты из раздела Меню`, {
+    reply_markup: JSON.stringify({
+      keyboard: [
+        [
+          {
+            text: `Меню`,
+            web_app: {
+              url: `${webAppUrl}`,
             },
-          ],
+          },
         ],
-        resize_keyboard: true,
-      }),
-    }
-  );
+      ],
+      resize_keyboard: true,
+    }),
+  });
 });
 
 bot.on("message", async (msg) => {
