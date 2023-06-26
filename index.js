@@ -167,7 +167,9 @@ bot.on("message", async (msg) => {
           `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
         );
         await axios
-          .post(`https://api.kaizen-group.uz/smartup/createOrder`, data)
+          .post(`https://api.kaizen-group.uz/smartup/createOrder`, {
+            data: data,
+          })
           .then((res) => {
             console.log("res", res);
           })
