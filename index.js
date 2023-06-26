@@ -82,7 +82,6 @@ bot.on("location", async (msg) => {
         userInfo.language,
       ]
     );
-    console.log(hello);
   } else {
     let update = await client.query(
       "UPDATE allusers SET users_location = $1 where user_id = $2",
@@ -108,7 +107,6 @@ bot.on("location", async (msg) => {
 });
 
 bot.on("message", async (msg) => {
-  console.log("msg_webAPp", msg.web_app_data);
   if (msg.web_app_data?.data) {
     let resN = number[0] + 1;
     number.unshift(resN);
@@ -153,16 +151,16 @@ bot.on("message", async (msg) => {
           get.rows[0].users_location[1]
         } (Локация после сообщения)</b> %0A
       <b>Номер телефона: +${get.rows[0].phone_number}</b> %0A
-      <b>Товары в корзине: ${data.map((i) => {
+      <b>Товары в корзине: ${data.order_products.map((i) => {
         let text = `<b> %0A      - ${i.product_name} x ${i.count} (${i.regular_price})</b>`;
         return text;
       })}</b> %0A
       %0A
       <b>Информация об оплате (наличные)</b> %0A
-      <b>Подытог: ${data[0].total - 15000} сум</b> %0A
+      <b>Подытог: ${data.total - 15000} сум</b> %0A
       <b>Доставка: 15 000 сум</b> %0A
-      <b>Скидка: ${data[0].discount} сум</b> %0A
-      <b>Итого: ${data[0].total} сум</b> %0A
+      <b>Скидка: ${data.discount} сум</b> %0A
+      <b>Итого: ${data.total} сум</b> %0A
     `;
 
         await axios.post(
