@@ -122,30 +122,27 @@ bot.on("message", async (msg) => {
       }
 
       if (msg.web_app_data.data.length >= 0) {
+        console.log(data);
+        let get = await client.query(
+          "SELECT * FROM allusers where user_id = $1",
+          [userInfo.user_id]
+        );
         let date = new Date();
         let month = date.getMonth();
         let day = date.getDate();
         let year = date.getFullYear();
         let created_date = `${month}.${day}.${year}`;
         let create = await client.query(
-          "INSERT INTO orders(products, total, created_date) values($1, $2, $3, $4)",
+          "INSERT INTO orders(products, total, created_date, username) values($1, $2, $3, $4)",
           [products, total, created_date, get.rows[0].tg_username]
         );
 
-        console.log("post order ned");
-        let count = [];
         let max = await client.query("SELECT MAX(id) FROM orders");
-        count.push(max.rows[0].max);
-
-        let get = await client.query(
-          "SELECT * FROM allusers where user_id = $1",
-          [userInfo.user_id]
-        );
 
         const token = process.env.TelegramApi;
         const chat_id = process.env.CHAT_ID;
         const message = ` <b>Заявка с бота!</b> %0A
-      <b>Заказ номер: ${count}</b> %0A
+      <b>Заказ номер: ${max.rows.max}</b> %0A
        <b>Имя пользователя: @${get.rows[0].tg_username}</b> %0A
        <b>Адрес: ${get.rows[0].users_location[0]}, ${
           get.rows[0].users_location[1]
@@ -169,6 +166,14 @@ bot.on("message", async (msg) => {
         await axios.post(
           `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
         );
+        // await axios
+        //   .post(`https://api.kaizen-group.uz/smartup/createOrder`, requestBody)
+        //   .then((res) => {
+        //     console.log("res", res);
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   });
       }
     } catch (error) {
       console.log("error ->", error);
@@ -180,7 +185,7 @@ bot.on("message", async (msg) => {
   if (msg.web_app_data?.data) {
     await bot.sendMessage(
       msg.chat.id,
-      `Buyurtmangiz qabul qilindi tez orada operatorarlar siz bilan bog'lanishadi`,
+      `Ваш заказ принят!    Спасибо за доверие 😊`,
       {
         reply_markup: JSON.stringify({
           keyboard: [
