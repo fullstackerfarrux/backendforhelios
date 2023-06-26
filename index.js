@@ -113,7 +113,6 @@ bot.on("message", async (msg) => {
 
     try {
       const data = JSON.parse(msg.web_app_data.data);
-      console.log("data", data);
       let UsersData = [];
       let products = [];
       let total = +data.total;
@@ -159,7 +158,14 @@ bot.on("message", async (msg) => {
       <b>Скидка: ${data.discount} сум</b> %0A
       <b>Итого: ${data.total} сум</b> %0A
     `;
-        let requestData = { phone_number: "901231070", ...data };
+        let requestData = {
+          phone_number: get.rows[0].phone_number,
+          client_name: get.rows[0].tg_username,
+          person_latitude: get.rows[0].users_location[0],
+          person_longitude: get.rows[0].users_location[1],
+          note: "test",
+          ...data,
+        };
 
         // await axios.post(
         //   `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
@@ -168,17 +174,17 @@ bot.on("message", async (msg) => {
         //   `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
         // );
         console.log(requestData);
-        // await fetch(`https://api.kaizen-group.uz/smartup/createOrder`, {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: data,
-        // })
-        //   .then((res) => {
-        //     console.log("res", res);
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //   });
+        await fetch(`https://api.kaizen-group.uz/smartup/createOrder`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: data,
+        })
+          .then((res) => {
+            console.log("res", res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     } catch (error) {
       console.log("error ->", error);
