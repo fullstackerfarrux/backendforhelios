@@ -38,7 +38,7 @@ const createOrder = async (req, res) => {
         delivery_number: null,
         delivery_date: created_date,
         booked_date: created_date,
-        total_amount: total,
+        total_amount: `${total}`,
         room_id: "40622",
         room_code: "70777",
         room_name: "Website&Bot",
