@@ -88,6 +88,24 @@ bot.on("location", async (msg) => {
       [[`${latitude}`, `${longitude}`], userInfo.user_id]
     );
   }
+  let get = await client.query("SELECT * FROM allusers where user_id = $1", [
+    userInfo.user_id,
+  ]);
+
+  await fetch(`https://api.kaizen-group.uz/smartup/createUser`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      first_name: `${get.rows[0].tg_username}`,
+      phone_number: `${get.rows[0].phone_number.replace("998", "")}`,
+    }),
+  })
+    .then((res) => {
+      console.log("res", res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
   bot.sendMessage(msg.chat.id, `Выберите продукты из раздела Меню`, {
     reply_markup: JSON.stringify({
@@ -158,23 +176,12 @@ bot.on("message", async (msg) => {
       <b>Скидка: ${data.discount} сум</b> %0A
       <b>Итого: ${data.total} сум</b> %0A
     `;
-        // let requestData = {
-        //   phone_number: get.rows[0].phone_number.replace("998", ""),
-        //   client_name: get.rows[0].tg_username,
-        //   person_latitude: get.rows[0].users_location[0],
-        //   person_longitude: get.rows[0].users_location[1],
-        //   note: "test",
-        //   ...data,
-        // };
-
-        // await axios.post(
-        //   `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
-        // );
-        // await axios.post(
-        //   `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
-        // );
-        // console.log(requestData);
-        // console.log(get.rows[0].phone_number.replace("998", ""));
+        await axios.post(
+          `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
+        );
+        await axios.post(
+          `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
+        );
         await fetch(`https://api.kaizen-group.uz/smartup/createOrder`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -183,7 +190,7 @@ bot.on("message", async (msg) => {
             client_name: get.rows[0].tg_username,
             person_latitude: get.rows[0].users_location[0],
             person_longitude: get.rows[0].users_location[1],
-            note: "test",
+            note: "for bot",
             ...data,
           }),
         })
@@ -204,7 +211,8 @@ bot.on("message", async (msg) => {
   if (msg.web_app_data?.data) {
     await bot.sendMessage(
       msg.chat.id,
-      `Ваш заказ принят!    Спасибо за доверие 😊`,
+      `Ваш заказ принят! 
+Спасибо за доверие 😊`,
       {
         reply_markup: JSON.stringify({
           keyboard: [
