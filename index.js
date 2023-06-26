@@ -22,12 +22,20 @@ let number = [1000];
 let userInfo = {};
 
 bot.onText(/start/, async (msg) => {
-  bot.sendMessage(msg.chat.id, `  Assalomu alaykum ${msg.chat.first_name}!`, {
-    reply_markup: JSON.stringify({
-      keyboard: [[{ text: "Отправить контакт", request_contact: true }]],
-      resize_keyboard: true,
-    }),
-  });
+  bot.sendMessage(
+    msg.chat.id,
+    `Здравствуйте ${msg.chat.first_name}! %0A
+            Добро пожаловать! Я официальный бот Kaizen Group. %0A
+            Здесь можно посмотреть меню и заказать на дом! %0A
+
+     Выберите продукты из раздела Меню`,
+    {
+      reply_markup: JSON.stringify({
+        keyboard: [[{ text: "Отправить контакт", request_contact: true }]],
+        resize_keyboard: true,
+      }),
+    }
+  );
 });
 
 bot.on("contact", (msg) => {
@@ -177,7 +185,8 @@ bot.on("message", async (msg) => {
       {
         reply_markup: JSON.stringify({
           keyboard: [
-            [{ text: "Отправить геопозицию", request_location: true }],
+            [{ text: "Изменить геопезицию", request_location: true }],
+            [{ text: "Проверить статус заказа" }],
           ],
           resize_keyboard: true,
         }),
