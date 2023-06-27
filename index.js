@@ -176,21 +176,12 @@ bot.on("message", async (msg) => {
       <b>Скидка: ${data.discount == undefined ? "0" : data.discount} сум</b> %0A
       <b>Итого: ${data.total} сум</b> %0A
     `;
-        // await axios.post(
-        //   `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
-        // );
-        // await axios.post(
-        //   `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
-        // );
-        const raw = {
-          phone_number: get.rows[0].phone_number.replace("998", ""),
-          client_name: get.rows[0].tg_username,
-          person_latitude: get.rows[0].users_location[0],
-          person_longitude: get.rows[0].users_location[1],
-          note: "for bot",
-          ...data,
-        };
-        console.log("raw",raw);
+        await axios.post(
+          `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
+        );
+        await axios.post(
+          `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
+        );
         await fetch(`https://api.kaizen-group.uz/smartup/createOrder`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
