@@ -212,11 +212,11 @@ bot.on("message", async (msg) => {
     let get = await client.query("SELECT * FROM allusers where user_id = $1", [
       msg.from.id,
     ]);
-    // const myOrders = `https://helios-test.vercel.app/myorders/${get.rows[0].phone_number.replace(
-    //   "998",
-    //   ""
-    // )}`;
-    const myOrders = `https://helios-test.vercel.app/myorders/${901231070}`;
+    const myOrders = `https://helios-test.vercel.app/myorders/${get.rows[0].phone_number.replace(
+      "998",
+      ""
+    )}`;
+    // const myOrders = `https://helios-test.vercel.app/myorders/${901231070}`;
     await bot.sendMessage(
       msg.chat.id,
       `Ваш заказ принят! 
