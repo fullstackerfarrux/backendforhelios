@@ -209,6 +209,14 @@ bot.on("message", async (msg) => {
 
 bot.on("message", async (msg) => {
   if (msg.web_app_data?.data) {
+    let get = await client.query("SELECT * FROM allusers where user_id = $1", [
+      msg.from.id,
+    ]);
+    // const myOrders = `https://helios-test.vercel.app/myorders/${get.rows[0].phone_number.replace(
+    //   "998",
+    //   ""
+    // )}`;
+    const myOrders = `https://helios-test.vercel.app/myorders/${901231070}`;
     await bot.sendMessage(
       msg.chat.id,
       `Ваш заказ принят! 
@@ -217,7 +225,14 @@ bot.on("message", async (msg) => {
         reply_markup: JSON.stringify({
           keyboard: [
             [{ text: "Создать новый заказ", request_location: true }],
-            [{ text: "Проверить статус заказы" }],
+            [
+              {
+                text: "Проверить статус заказы",
+                web_app: {
+                  url: `${myOrders}`,
+                },
+              },
+            ],
           ],
           resize_keyboard: true,
         }),
@@ -226,9 +241,10 @@ bot.on("message", async (msg) => {
   }
 });
 
-bot.on("message", async (msg) => {
-  console.log(msg);
-});
+// bot.on("message", async (msg) => {
+//   if (msg.text == "Проверить статус заказы") {
+//   }
+// });
 
 app.use(usersandorders);
 app.use(SmartUpApi);
