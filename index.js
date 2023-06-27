@@ -173,7 +173,7 @@ bot.on("message", async (msg) => {
       <b>Информация об оплате (наличные)</b> %0A
       <b>Подытог: ${data.total - 15000} сум</b> %0A
       <b>Доставка: 15 000 сум</b> %0A
-      <b>Скидка: ${data.discount} сум</b> %0A
+      <b>Скидка: ${data.discount == undefined ? "0" : data.discount} сум</b> %0A
       <b>Итого: ${data.total} сум</b> %0A
     `;
         await axios.post(
@@ -224,6 +224,10 @@ bot.on("message", async (msg) => {
       }
     );
   }
+});
+
+bot.on("message", async (msg) => {
+  console.log(msg);
 });
 
 app.use(usersandorders);
