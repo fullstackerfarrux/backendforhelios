@@ -16,8 +16,21 @@ const createOrder = async (req, res) => {
     order_products,
   } = req.body;
 
-  console.log(order_products);
-  console.log(deal_time);
+  let rawTest = {
+    deal_time,
+    created_date,
+    total,
+    phone_number,
+    client_name,
+    person_latitude,
+    person_longitude,
+    note,
+    payment_type,
+    self_shipment,
+    order_products,
+  };
+
+  console.log(rawTest);
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "text/plain");
   myHeaders.append(

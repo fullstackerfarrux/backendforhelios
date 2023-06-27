@@ -166,7 +166,7 @@ bot.on("message", async (msg) => {
         } (Локация после сообщения)</b> %0A
       <b>Номер телефона: +${get.rows[0].phone_number}</b> %0A
       <b>Товары в корзине: ${data.order_products.map((i) => {
-        let text = `<b> %0A      - ${i.product_name} x ${i.count} (${i.regular_price})</b>`;
+        let text = `<b> %0A      - ${i.product_name} x ${i.product_quant} (${i.product_price})</b>`;
         return text;
       })}</b> %0A
       %0A
@@ -176,40 +176,30 @@ bot.on("message", async (msg) => {
       <b>Скидка: ${data.discount == undefined ? "0" : data.discount} сум</b> %0A
       <b>Итого: ${data.total} сум</b> %0A
     `;
-
-        let raw = {
-          phone_number: get.rows[0].phone_number.replace("998", ""),
-          client_name: get.rows[0].tg_username,
-          person_latitude: get.rows[0].users_location[0],
-          person_longitude: get.rows[0].users_location[1],
-          note: "for bot",
-          ...data,
-        };
-        console.log("datas", raw);
         // await axios.post(
         //   `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
         // );
         // await axios.post(
         //   `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
         // );
-        // await fetch(`https://api.kaizen-group.uz/smartup/createOrder`, {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify({
-        //     phone_number: get.rows[0].phone_number.replace("998", ""),
-        //     client_name: get.rows[0].tg_username,
-        //     person_latitude: get.rows[0].users_location[0],
-        //     person_longitude: get.rows[0].users_location[1],
-        //     note: "for bot",
-        //     ...data,
-        //   }),
-        // })
-        //   .then((res) => {
-        //     console.log("res", res);
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //   });
+        await fetch(`https://api.kaizen-group.uz/smartup/createOrder`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            phone_number: get.rows[0].phone_number.replace("998", ""),
+            client_name: get.rows[0].tg_username,
+            person_latitude: get.rows[0].users_location[0],
+            person_longitude: get.rows[0].users_location[1],
+            note: "for bot",
+            ...data,
+          }),
+        })
+          .then((res) => {
+            console.log("res", res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     } catch (error) {
       console.log("error ->", error);
