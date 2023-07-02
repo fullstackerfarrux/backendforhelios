@@ -86,7 +86,7 @@ bot.on("message", async (msg) => {
   // console.log(msg.text);
   if (msg.text == "Yuridik Shaxs") {
     bot.sendMessage(msg.chat.id, "Kompaniyangiz nomini yozing").then(
-      bot.addListener((msg) => {
+      bot.on((msg) => {
         console.log("yurists text", msg);
       })
     );
