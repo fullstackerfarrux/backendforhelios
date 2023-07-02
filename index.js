@@ -85,7 +85,11 @@ bot.on("contact", async (msg) => {
 bot.on("message", async (msg) => {
   // console.log(msg.text);
   if (msg.text == "Yuridik Shaxs") {
-    bot.sendMessage(msg.chat.id, "Kompaniyangiz nomini yozing");
+    bot.sendMessage(msg.chat.id, "Kompaniyangiz nomini yozing").then(
+      bot.addListener((msg) => {
+        console.log("yurists text", msg);
+      })
+    );
   } else if (msg.text == "Jismoniy shaxs") {
     bot.sendMessage(msg.chat.id, "Ism Familyezzi yozing");
   }
