@@ -66,6 +66,13 @@ bot.on("contact", async (msg) => {
             resize_keyboard: true,
           }),
         });
+      } else {
+        bot.sendMessage(msg.chat.id, `registratsiyadan otish`, {
+          reply_markup: [
+            [{ text: "Jismoniy shaxs" }, { text: "Yuridk shaxs" }],
+          ],
+          resize_keyboard: true,
+        });
       }
     })
     .catch((err) => {
