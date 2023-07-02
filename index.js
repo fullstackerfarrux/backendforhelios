@@ -37,6 +37,7 @@ bot.onText(/start/, async (msg) => {
 });
 
 bot.on("contact", (msg) => {
+  console.log(msg);
   userInfo.phone_number = msg.contact.phone_number;
   userInfo.username = msg.from.username;
   userInfo.language = msg.from.language_code;
