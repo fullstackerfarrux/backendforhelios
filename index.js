@@ -59,31 +59,25 @@ bot.on("contact", async (msg) => {
     }
   )
     .then((res) => {
-      console.log("res by phoen", res);
       return res.statusText;
-      // if (res.statusText == "OK") {
-      //   bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
-      //     reply_markup: JSON.stringify({
-      //       keyboard: [
-      //         [{ text: "Отправить геопозицию", request_location: true }],
-      //       ],
-      //       resize_keyboard: true,
-      //     }),
-      //   });
-      // } else {
-      //   bot.sendMessage(msg.chat.id, `registratsiyadan otish`, {
-      //     reply_markup: [
-      //       [{ text: "Jismoniy shaxs" }, { text: "Yuridk shaxs" }],
-      //     ],
-      //     resize_keyboard: true,
-      //   });
-      // }
     })
     .catch((err) => {
       console.log(err);
     });
 
-  console.log("checkUser", checkUser);
+  if (checkUser == "OK") {
+    bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
+      reply_markup: JSON.stringify({
+        keyboard: [[{ text: "Отправить геопозицию", request_location: true }]],
+        resize_keyboard: true,
+      }),
+    });
+  } else {
+    bot.sendMessage(msg.chat.id, `registratsiyadan otish`, {
+      reply_markup: [[{ text: "Jismoniy shaxs" }, { text: "Yuridk shaxs" }]],
+      resize_keyboard: true,
+    });
+  }
 });
 
 bot.on("location", async (msg) => {
