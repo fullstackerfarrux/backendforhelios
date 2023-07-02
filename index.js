@@ -47,37 +47,42 @@ bot.on("contact", async (msg) => {
     userInfo.user_id,
   ]);
 
-  await fetch(`https://api.kaizen-group.uz/smartup/getByPhone`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      // phone_number: get.rows[0].phone_number.replace("998", ""),
-      phone_number: "934581774",
-    }),
-  })
+  const checkUser = await fetch(
+    `https://api.kaizen-group.uz/smartup/getByPhone`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        // phone_number: get.rows[0].phone_number.replace("998", ""),
+        phone_number: "934581774",
+      }),
+    }
+  )
     .then((res) => {
       console.log("res by phoen", res);
-      if (res.statusText == "OK") {
-        bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
-          reply_markup: JSON.stringify({
-            keyboard: [
-              [{ text: "Отправить геопозицию", request_location: true }],
-            ],
-            resize_keyboard: true,
-          }),
-        });
-      } else {
-        bot.sendMessage(msg.chat.id, `registratsiyadan otish`, {
-          reply_markup: [
-            [{ text: "Jismoniy shaxs" }, { text: "Yuridk shaxs" }],
-          ],
-          resize_keyboard: true,
-        });
-      }
+      // if (res.statusText == "OK") {
+      //   bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
+      //     reply_markup: JSON.stringify({
+      //       keyboard: [
+      //         [{ text: "Отправить геопозицию", request_location: true }],
+      //       ],
+      //       resize_keyboard: true,
+      //     }),
+      //   });
+      // } else {
+      //   bot.sendMessage(msg.chat.id, `registratsiyadan otish`, {
+      //     reply_markup: [
+      //       [{ text: "Jismoniy shaxs" }, { text: "Yuridk shaxs" }],
+      //     ],
+      //     resize_keyboard: true,
+      //   });
+      // }
     })
     .catch((err) => {
       console.log(err);
     });
+
+  console.log("checkUser", checkUser);
 });
 
 bot.on("location", async (msg) => {
