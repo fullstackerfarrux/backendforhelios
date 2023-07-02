@@ -72,7 +72,7 @@ bot.on("contact", async (msg) => {
         resize_keyboard: true,
       }),
     });
-  } else {
+  } else if (checkUser == "Bad Request") {
     bot.sendMessage(msg.chat.id, `registratsiyadan otish`, {
       reply_markup: [[{ text: "Jismoniy shaxs" }, { text: "Yuridk shaxs" }]],
       resize_keyboard: true,
