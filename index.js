@@ -55,18 +55,20 @@ bot.on("contact", async (msg) => {
     }),
   })
     .then((res) => {
-      console.log("response by phone", res);
+      if (res.statusText == "OK") {
+        bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
+          reply_markup: JSON.stringify({
+            keyboard: [
+              [{ text: "Отправить геопозицию", request_location: true }],
+            ],
+            resize_keyboard: true,
+          }),
+        });
+      }
     })
     .catch((err) => {
       console.log(err);
     });
-
-  // bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
-  //   reply_markup: JSON.stringify({
-  //     keyboard: [[{ text: "Отправить геопозицию", request_location: true }]],
-  //     resize_keyboard: true,
-  //   }),
-  // });
 });
 
 bot.on("location", async (msg) => {
