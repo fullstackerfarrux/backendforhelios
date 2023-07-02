@@ -51,10 +51,12 @@ bot.on("contact", async (msg) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      phone_number: get.rows[0].phone_number.replace("998", ""),
+      // phone_number: get.rows[0].phone_number.replace("998", ""),
+      phone_number: "934581774",
     }),
   })
     .then((res) => {
+      console.log("res by phoen", res);
       if (res.statusText == "OK") {
         bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
           reply_markup: JSON.stringify({
