@@ -83,7 +83,12 @@ bot.on("contact", async (msg) => {
 });
 
 bot.on("message", async (msg) => {
-  console.log(msg);
+  console.log(msg.text);
+  if (msg.text == "Yuridik shaxs") {
+    bot.sendMessage(msg.chat.id, "Kompaniyangiz nomini yozing");
+  } else if (msg.text == "Jismoniy shaxs") {
+    bot.sendMessage(msg.chat.id, "Ism Familyezzi yozing");
+  }
 });
 
 bot.on("location", async (msg) => {
