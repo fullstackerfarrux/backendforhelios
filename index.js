@@ -73,13 +73,17 @@ bot.on("contact", async (msg) => {
       }),
     });
   } else if (checkUser == "Bad Request") {
-    bot.sendMessage(msg.chat.id, `registratsiyadan otish`, {
+    bot.sendMessage(msg.chat.id, `royxatdan otish`, {
       reply_markup: JSON.stringify({
         keyboard: [[{ text: "Yuridik Shaxs" }, { text: "Jismoniy shaxs" }]],
         resize_keyboard: true,
       }),
     });
   }
+});
+
+bot.on("message", async (msg) => {
+  console.log(msg);
 });
 
 bot.on("location", async (msg) => {
