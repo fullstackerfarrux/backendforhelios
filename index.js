@@ -74,8 +74,10 @@ bot.on("contact", async (msg) => {
     });
   } else if (checkUser == "Bad Request") {
     bot.sendMessage(msg.chat.id, `registratsiyadan otish`, {
-      reply_markup: [[{ text: "Jismoniy shaxs" }, { text: "Yuridk shaxs" }]],
-      resize_keyboard: true,
+      reply_markup: JSON.stringify({
+        keyboard: [[{ text: "Yuridik Shaxs" }, { text: "Jismoniy shaxs" }]],
+        resize_keyboard: true,
+      }),
     });
   }
 });
