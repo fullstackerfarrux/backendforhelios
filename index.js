@@ -36,19 +36,37 @@ bot.onText(/start/, async (msg) => {
   );
 });
 
-bot.on("contact", (msg) => {
-  console.log(msg);
+bot.on("contact", async (msg) => {
   userInfo.phone_number = msg.contact.phone_number;
   userInfo.username = msg.from.username;
+  userInfo.first_name = msg.from.first_name;
   userInfo.language = msg.from.language_code;
   userInfo.user_id = msg.from.id;
 
-  bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
-    reply_markup: JSON.stringify({
-      keyboard: [[{ text: "Отправить геопозицию", request_location: true }]],
-      resize_keyboard: true,
+  let get = await client.query("SELECT * FROM allusers where user_id = $1", [
+    userInfo.user_id,
+  ]);
+
+  await fetch(`https://api.kaizen-group.uz/smartup/getByPhone`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      phone_number: get.rows[0].phone_number.replace("998", ""),
     }),
-  });
+  })
+    .then((res) => {
+      console.log("response by phone", res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  // bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
+  //   reply_markup: JSON.stringify({
+  //     keyboard: [[{ text: "Отправить геопозицию", request_location: true }]],
+  //     resize_keyboard: true,
+  //   }),
+  // });
 });
 
 bot.on("location", async (msg) => {
@@ -74,13 +92,14 @@ bot.on("location", async (msg) => {
 
   if (!find.rows.length) {
     let create = await client.query(
-      "INSERT INTO allusers(user_id, tg_username, phone_number, users_location, user_language) values($1, $2, $3, $4, $5)",
+      "INSERT INTO allusers(user_id, tg_username, phone_number, users_location, user_language, tg_name) values($1, $2, $3, $4, $5, $6)",
       [
         userInfo.user_id,
         userInfo.username,
         userInfo.phone_number,
         [`${latitude}`, `${longitude}`],
         userInfo.language,
+        userInfo.first_name,
       ]
     );
   } else {
@@ -177,18 +196,19 @@ bot.on("message", async (msg) => {
       <b>Скидка: ${data.discount == undefined ? "0" : data.discount} сум</b> %0A
       <b>Итого: ${data.total} сум</b> %0A
     `;
-        await axios.post(
-          `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
-        );
-        await axios.post(
-          `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
-        );
+
+        // await axios.post(
+        //   `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
+        // );
+        // await axios.post(
+        //   `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
+        // );
         await fetch(`https://api.kaizen-group.uz/smartup/createOrder`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             phone_number: get.rows[0].phone_number.replace("998", ""),
-            client_name: get.rows[0].tg_username,
+            client_name: get.rows[0].tg_name,
             person_latitude: get.rows[0].users_location[0],
             person_longitude: get.rows[0].users_location[1],
             note: "for bot",
@@ -241,11 +261,6 @@ bot.on("message", async (msg) => {
     );
   }
 });
-
-// bot.on("message", async (msg) => {
-//   if (msg.text == "Проверить статус заказы") {
-//   }
-// });
 
 app.use(usersandorders);
 app.use(SmartUpApi);
