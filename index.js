@@ -85,19 +85,16 @@ bot.on("contact", async (msg) => {
 bot.on("message", async (msg) => {
   // console.log(msg.text);
   if (msg.text == "Yuridik Shaxs") {
-    bot.sendMessage(msg.chat.id, "Kompaniyangiz nomini yozing").then(
-      bot.on((msg) => {
-        console.log("yurists text", msg);
-      })
-    );
+    await bot.sendMessage(msg.chat.id, "Kompaniyangiz nomini yozing");
+    console.log("rhis text after shaxs", msg.text);
   } else if (msg.text == "Jismoniy shaxs") {
     bot.sendMessage(msg.chat.id, "Ism Familyezzi yozing");
   }
 });
 
-bot.on("text", async (msg) => {
-  console.log("tes=xt", msg);
-});
+// bot.on("text", async (msg) => {
+//   console.log("tes=xt", msg);
+// });
 
 bot.on("location", async (msg) => {
   let { latitude, longitude } = msg.location;
