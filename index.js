@@ -60,6 +60,7 @@ bot.on("contact", async (msg) => {
   )
     .then((res) => {
       console.log("res by phoen", res);
+      return res.statusText;
       // if (res.statusText == "OK") {
       //   bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
       //     reply_markup: JSON.stringify({
