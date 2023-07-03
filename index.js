@@ -49,6 +49,9 @@ bot.on("contact", async (msg) => {
     userInfo.user_id,
   ]);
 
+  console.log("rows", get.rows);
+  console.log("get", get);
+
   const checkUser = await fetch(
     `https://api.kaizen-group.uz/smartup/getByPhone`,
     {
