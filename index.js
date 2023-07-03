@@ -218,8 +218,6 @@ bot.on("message", async (msg) => {
           "SELECT * FROM allusers where user_id = $1",
           [userInfo.user_id]
         );
-        console.log("get", get);
-        console.log("get rows", get.rows);
         let date = new Date();
         let month = date.getMonth();
         let day = date.getDate();
@@ -267,7 +265,6 @@ bot.on("message", async (msg) => {
             client_name: get.rows[0].tg_name,
             person_latitude: get.rows[0].users_location[0],
             person_longitude: get.rows[0].users_location[1],
-            note: "for bot",
             ...data,
           }),
         })
