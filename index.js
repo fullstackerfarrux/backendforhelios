@@ -74,7 +74,11 @@ bot.on("contact", async (msg) => {
       }),
     });
   } else if (checkUser == "Bad Request") {
-    bot.sendMessage(msg.chat.id, `royxatdan otish`, {
+    let create = await client.query(
+      "INSERT INTO allusers(user_id, phone_number) values($1, $2)",
+      [userInfo.user_id, userInfo.phone_number]
+    );
+    bot.sendMessage(msg.chat.id, `Зарегистрироваться как...`, {
       reply_markup: JSON.stringify({
         keyboard: [[{ text: "Юридическое лицо" }, { text: "Физическое лицо" }]],
         resize_keyboard: true,
@@ -86,10 +90,13 @@ bot.on("contact", async (msg) => {
 bot.on("message", async (msg) => {
   setTimeout(async () => {
     if (msg.text == "Юридическое лицо") {
-      await bot.sendMessage(msg.chat.id, "Kompaniyangiz nomini yozing");
+      await bot.sendMessage(
+        msg.chat.id,
+        "Пожалуйста, введите название компании"
+      );
       auth = 1;
     } else if (msg.text == "Физическое лицо") {
-      bot.sendMessage(msg.chat.id, "Ism Familyezzi yozing");
+      bot.sendMessage(msg.chat.id, "Пожалуйста, введите имя и фамилию");
       auth = 2;
     } else if (auth == 1) {
       console.log("1", userInfo.first_name);
