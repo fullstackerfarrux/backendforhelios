@@ -49,16 +49,13 @@ bot.on("contact", async (msg) => {
     userInfo.user_id,
   ]);
 
-  console.log("rows", get.rows);
-  console.log("get", get);
-
   const checkUser = await fetch(
     `https://api.kaizen-group.uz/smartup/getByPhone`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        phone_number: get.rows[0].phone_number.replace("998", ""),
+        phone_number: msg.contact.phone_number.replace("998", ""),
       }),
     }
   )
