@@ -88,20 +88,18 @@ bot.on("message", async (msg) => {
   if (msg.text == "Yuridik Shaxs") {
     await bot.sendMessage(msg.chat.id, "Kompaniyangiz nomini yozing");
     auth = 1;
-    console.log("rhis text after shaxs", msg.text);
   } else if (msg.text == "Jismoniy shaxs") {
     bot.sendMessage(msg.chat.id, "Ism Familyezzi yozing");
     auth = 2;
   } else if (auth == 1) {
     console.log("yuridik", msg.text);
+    console.log("1", userInfo.first_name);
+    userInfo.first_name = msg.from.first_name + " " + msg.text;
+    console.log("2", userInfo.first_name);
   } else if (auth == 2) {
     console.log("jismoniy", msg.text);
   }
 });
-
-// bot.on("text", async (msg) => {
-//   console.log("tes=xt", msg);
-// });
 
 bot.on("location", async (msg) => {
   let { latitude, longitude } = msg.location;
