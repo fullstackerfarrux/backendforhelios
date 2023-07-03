@@ -55,8 +55,7 @@ bot.on("contact", async (msg) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        // phone_number: get.rows[0].phone_number.replace("998", ""),
-        phone_number: "934581774",
+        phone_number: get.rows[0].phone_number.replace("998", ""),
       }),
     }
   )
