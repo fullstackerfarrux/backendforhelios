@@ -85,41 +85,47 @@ bot.on("contact", async (msg) => {
 });
 
 bot.on("message", async (msg) => {
-  if (msg.text == "Юридическое лицо") {
-    await bot.sendMessage(msg.chat.id, "Kompaniyangiz nomini yozing");
-    auth = 1;
-  } else if (msg.text == "Физическое лицо") {
-    bot.sendMessage(msg.chat.id, "Ism Familyezzi yozing");
-    auth = 2;
-  } else if (auth == 1) {
-    console.log("1", userInfo.first_name);
-    userInfo.first_name = msg.from.first_name + " " + `(юр.лицо) ${msg.text}`;
-    console.log("2", userInfo.first_name);
-    bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
-      reply_markup: JSON.stringify({
-        keyboard: [[{ text: "Отправить геопозицию", request_location: true }]],
-        resize_keyboard: true,
-      }),
-    });
-  } else if (auth == 2) {
-    console.log("jismoniy", msg.text);
-    userInfo.first_name = msg.text;
-    bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
-      reply_markup: JSON.stringify({
-        keyboard: [[{ text: "Отправить геопозицию", request_location: true }]],
-        resize_keyboard: true,
-      }),
-    });
-  }
+  setTimeout(async () => {
+    if (msg.text == "Юридическое лицо") {
+      await bot.sendMessage(msg.chat.id, "Kompaniyangiz nomini yozing");
+      auth = 1;
+    } else if (msg.text == "Физическое лицо") {
+      bot.sendMessage(msg.chat.id, "Ism Familyezzi yozing");
+      auth = 2;
+    } else if (auth == 1) {
+      console.log("1", userInfo.first_name);
+      userInfo.first_name = msg.from.first_name + " " + `(юр.лицо) ${msg.text}`;
+      console.log("2", userInfo.first_name);
+      bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
+        reply_markup: JSON.stringify({
+          keyboard: [
+            [{ text: "Отправить геопозицию", request_location: true }],
+          ],
+          resize_keyboard: true,
+        }),
+      });
+    } else if (auth == 2) {
+      console.log("jismoniy", msg.text);
+      userInfo.first_name = msg.text;
+      bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
+        reply_markup: JSON.stringify({
+          keyboard: [
+            [{ text: "Отправить геопозицию", request_location: true }],
+          ],
+          resize_keyboard: true,
+        }),
+      });
+    }
+  }, 2000);
 });
 
 bot.on("location", async (msg) => {
+  auth = 0;
   let { latitude, longitude } = msg.location;
 
   userInfo.location_latitude = latitude;
   userInfo.location_longitude = longitude;
   userInfo.user_id = msg.from.id;
-  auth = 0;
 
   let check = true;
 
@@ -243,12 +249,12 @@ bot.on("message", async (msg) => {
       <b>Итого: ${data.total} сум</b> %0A
     `;
 
-        await axios.post(
-          `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
-        );
-        await axios.post(
-          `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
-        );
+        // await axios.post(
+        //   `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
+        // );
+        // await axios.post(
+        //   `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
+        // );
         await fetch(`https://api.kaizen-group.uz/smartup/createOrder`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
