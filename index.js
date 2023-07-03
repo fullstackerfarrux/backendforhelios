@@ -116,7 +116,7 @@ bot.on("message", async (msg) => {
         }),
       });
     }
-  }, 2000);
+  }, 1500);
 });
 
 bot.on("location", async (msg) => {
@@ -232,7 +232,7 @@ bot.on("message", async (msg) => {
         const chat_id = process.env.CHAT_ID;
         const message = ` <b>Заявка с бота!</b> %0A
       <b>Заказ номер: ${max.rows[0].max}</b> %0A
-       <b>Имя пользователя: @${get.rows[0].tg_name}</b> %0A
+       <b>Имя пользователя: ${get.rows[0].tg_name}</b> %0A
        <b>Адрес: ${get.rows[0].users_location[0]}, ${
           get.rows[0].users_location[1]
         } (Локация после сообщения)</b> %0A
@@ -249,12 +249,12 @@ bot.on("message", async (msg) => {
       <b>Итого: ${data.total} сум</b> %0A
     `;
 
-        // await axios.post(
-        //   `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
-        // );
-        // await axios.post(
-        //   `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
-        // );
+        await axios.post(
+          `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${message}`
+        );
+        await axios.post(
+          `https://api.telegram.org/bot${token}/sendLocation?chat_id=${chat_id}&latitude=${userInfo.location_latitude}&longitude=${userInfo.location_longitude}`
+        );
         await fetch(`https://api.kaizen-group.uz/smartup/createOrder`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
