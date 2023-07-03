@@ -77,7 +77,7 @@ bot.on("contact", async (msg) => {
   } else if (checkUser == "Bad Request") {
     bot.sendMessage(msg.chat.id, `royxatdan otish`, {
       reply_markup: JSON.stringify({
-        keyboard: [[{ text: "Yuridik Shaxs" }, { text: "Jismoniy shaxs" }]],
+        keyboard: [[{ text: "Юридическое лицо" }, { text: "Физическое лицо" }]],
         resize_keyboard: true,
       }),
     });
@@ -85,19 +85,31 @@ bot.on("contact", async (msg) => {
 });
 
 bot.on("message", async (msg) => {
-  if (msg.text == "Yuridik Shaxs") {
+  if (msg.text == "Юридическое лицо") {
     await bot.sendMessage(msg.chat.id, "Kompaniyangiz nomini yozing");
     auth = 1;
-  } else if (msg.text == "Jismoniy shaxs") {
+  } else if (msg.text == "Физическое лицо") {
     bot.sendMessage(msg.chat.id, "Ism Familyezzi yozing");
     auth = 2;
   } else if (auth == 1) {
-    console.log("yuridik", msg.text);
     console.log("1", userInfo.first_name);
-    userInfo.first_name = msg.from.first_name + " " + msg.text;
+    userInfo.first_name = msg.from.first_name + " " + `(юр.лицо) ${msg.text}`;
     console.log("2", userInfo.first_name);
+    bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
+      reply_markup: JSON.stringify({
+        keyboard: [[{ text: "Отправить геопозицию", request_location: true }]],
+        resize_keyboard: true,
+      }),
+    });
   } else if (auth == 2) {
     console.log("jismoniy", msg.text);
+    userInfo.first_name = msg.text;
+    bot.sendMessage(msg.chat.id, `Пожалуйста отправьте геопозицию`, {
+      reply_markup: JSON.stringify({
+        keyboard: [[{ text: "Отправить геопозицию", request_location: true }]],
+        resize_keyboard: true,
+      }),
+    });
   }
 });
 
