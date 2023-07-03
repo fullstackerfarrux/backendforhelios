@@ -14,8 +14,7 @@ create table allusers(
    users_location varchar[],
    users_location_text varchar[],
    user_language varchar,
-   email varchar,
-   organization varchar
+   email varchar
 );
 
 drop table if exists orders;
