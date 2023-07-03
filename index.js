@@ -45,10 +45,6 @@ bot.on("contact", async (msg) => {
   userInfo.user_id = msg.from.id;
   auth = 0;
 
-  let get = await client.query("SELECT * FROM allusers where user_id = $1", [
-    userInfo.user_id,
-  ]);
-
   const checkUser = await fetch(
     `https://api.kaizen-group.uz/smartup/getByPhone`,
     {
@@ -74,10 +70,10 @@ bot.on("contact", async (msg) => {
       }),
     });
   } else if (checkUser == "Bad Request") {
-    let create = await client.query(
-      "INSERT INTO allusers(user_id, phone_number) values($1, $2)",
-      [userInfo.user_id, userInfo.phone_number]
-    );
+    // let create = await client.query(
+    //   "INSERT INTO allusers(user_id, phone_number) values($1, $2)",
+    //   [userInfo.user_id, userInfo.phone_number]
+    // );
     bot.sendMessage(msg.chat.id, `Зарегистрироваться как...`, {
       reply_markup: JSON.stringify({
         keyboard: [[{ text: "Юридическое лицо" }, { text: "Физическое лицо" }]],
@@ -222,6 +218,8 @@ bot.on("message", async (msg) => {
           "SELECT * FROM allusers where user_id = $1",
           [userInfo.user_id]
         );
+        console.log("get", get);
+        console.log("get rows", get.rows);
         let date = new Date();
         let month = date.getMonth();
         let day = date.getDate();
@@ -229,7 +227,7 @@ bot.on("message", async (msg) => {
         let created_date = `${month}.${day}.${year}`;
         let create = await client.query(
           "INSERT INTO orders(products, total, created_date, username) values($1, $2, $3, $4)",
-          [products, total, created_date, get.rows[0].tg_username]
+          [products, total, created_date, get.rows[0].tg_name]
         );
 
         let max = await client.query("SELECT MAX(id) FROM orders");
