@@ -20,6 +20,7 @@ const bot = new TelegramBot(process.env.TelegramApi, { polling: true });
 const webAppUrl = "https://helios-test.vercel.app/en/catalogforbot";
 let number = [1000];
 let userInfo = {};
+let auth = 0;
 
 bot.onText(/start/, async (msg) => {
   bot.sendMessage(
@@ -42,6 +43,7 @@ bot.on("contact", async (msg) => {
   userInfo.first_name = msg.from.first_name;
   userInfo.language = msg.from.language_code;
   userInfo.user_id = msg.from.id;
+  auth = 0;
 
   let get = await client.query("SELECT * FROM allusers where user_id = $1", [
     userInfo.user_id,
@@ -83,12 +85,17 @@ bot.on("contact", async (msg) => {
 });
 
 bot.on("message", async (msg) => {
-  // console.log(msg.text);
   if (msg.text == "Yuridik Shaxs") {
     await bot.sendMessage(msg.chat.id, "Kompaniyangiz nomini yozing");
+    auth = 1;
     console.log("rhis text after shaxs", msg.text);
   } else if (msg.text == "Jismoniy shaxs") {
     bot.sendMessage(msg.chat.id, "Ism Familyezzi yozing");
+    auth = 2;
+  } else if (auth == 1) {
+    console.log("yuridik", msg.text);
+  } else if (auth == 2) {
+    console.log("jismoniy", msg.text);
   }
 });
 
@@ -102,6 +109,7 @@ bot.on("location", async (msg) => {
   userInfo.location_latitude = latitude;
   userInfo.location_longitude = longitude;
   userInfo.user_id = msg.from.id;
+  auth = 0;
 
   let check = true;
 
@@ -173,6 +181,7 @@ bot.on("location", async (msg) => {
 
 bot.on("message", async (msg) => {
   if (msg.web_app_data?.data) {
+    auth = 0;
     let resN = number[0] + 1;
     number.unshift(resN);
 
@@ -257,6 +266,7 @@ bot.on("message", async (msg) => {
 
 bot.on("message", async (msg) => {
   if (msg.web_app_data?.data) {
+    auth = 0;
     let get = await client.query("SELECT * FROM allusers where user_id = $1", [
       msg.from.id,
     ]);
