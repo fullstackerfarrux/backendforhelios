@@ -1,6 +1,5 @@
 const updateOrder = async (req, res) => {
   let { deal_id, order_status } = req.body;
-  console.log(req.body);
 
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "text/plain");
