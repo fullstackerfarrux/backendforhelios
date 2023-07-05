@@ -6,6 +6,7 @@ import getOrdersController from "../ControllerForSmartUp/getOrders.controller.js
 import updateUser from "../ControllerForSmartUp/updateUser.controller.js";
 import updateOrder from "../ControllerForSmartUp/updateOrder.controller.js";
 import { getProducts } from "../ControllerForSmartUp/getProducts.controller.js";
+import { pageOffset } from "../ControllerForSmartUp/pageOffset.controller.js";
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.post("/smartup/updateOrder", updateOrder);
 router.post("/smartup/createOrder", createOrder);
 router.post("/smartup/getOrder", getOrdersController);
 router.get("/smartup/getProducts", getProducts);
+router.get("/smartup/pageOffset", pageOffset);
 
 export default router;
