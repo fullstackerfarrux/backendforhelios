@@ -81,7 +81,7 @@ export const getProducts = async (req, res) => {
     let resProduct = {};
     resProduct.code = products[0][i].code;
     const splitName = products[0][i].name.split(" ");
-    const spliceName = splitName.splice(1, splitName.length);
+    const spliceName = splitName.splice(1);
     const name = spliceName.toString().replaceAll(",", " ");
     resProduct.name = name;
     resProduct.state = products[0][i].state;
@@ -106,6 +106,7 @@ export const getProducts = async (req, res) => {
       if (products[0][i].code == remainder[0][c].product_code) {
         resProduct.product_id = remainder[0][c].product_id;
         resProduct.quantity = remainder[0][c].quantity;
+        resProduct.created_date = remainder[0][c].date;
       }
     }
     result.push(resProduct);
